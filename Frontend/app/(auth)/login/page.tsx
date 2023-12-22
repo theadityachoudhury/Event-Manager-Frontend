@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { AlertCircle, MoveLeft } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, MoveLeft } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -15,13 +15,8 @@ const Page = () => {
 		password: "",
 		account: "",
 	});
-	const toggleShow = (e: any) => {
-		e.preventDefault();
-		if (show) {
-			setShow(false);
-		} else {
-			setShow(true);
-		}
+	const toggleShow = () => {
+		setShow((prevShow) => !prevShow);
 	};
 	return (
 		<>
@@ -96,18 +91,21 @@ const Page = () => {
 										</Link>
 									</div>
 								</div>
-								<div className="mt-2 flex items-center min-w-screen">
-									<input
-										id="password"
-										name="password"
-										type={show ? "text" : "password"}
-										autoComplete="current-password"
-										placeholder="Enter your Password"
-										required
-										className="flex-grow mr-2 px-5 rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-									/>
-
-									<Button onClick={toggleShow}>{show ? "Hide" : "Show"}</Button>
+								<div className="flex items-center justify-between">
+									<div className="relative flex-grow mr-2">
+										<input
+											id="password"
+											name="password"
+											type={show ? "text" : "password"}
+											autoComplete="current-password"
+											placeholder="Enter your Password"
+											required
+											className="w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+										/>
+										<div onClick={toggleShow} className="absolute inset-y-0 right-0 pr-3 flex items-center text-black">
+											{show ? <Eye /> : <EyeOff />}
+										</div>
+									</div>
 								</div>
 							</div>
 
