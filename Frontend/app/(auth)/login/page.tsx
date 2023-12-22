@@ -129,14 +129,14 @@ const Page = () => {
 							</Link>
 						</p>
 					</div>
-					{/* <div className="hidden sm:block  m-3 justify-center sm:mx-auto sm:w-full sm:max-w-sm">
-					<Link href="/">
-						<p className="flex gap-2">
-							<MoveLeft />
-							Back to Home
-						</p>
-					</Link>
-				</div> */}
+					<div className="md:hidden flex  m-3 justify-center sm:mx-auto sm:w-full sm:max-w-sm">
+						<Link href="/">
+							<p className="flex gap-2">
+								<MoveLeft />
+								Back to Home
+							</p>
+						</Link>
+					</div>
 				</div>
 			</div>
 		</>
