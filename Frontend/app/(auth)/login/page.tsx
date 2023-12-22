@@ -25,7 +25,7 @@ const Page = () => {
 	};
 	return (
 		<>
-			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:mr-2">
+			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:px-4">
 				<div className="hidden md:block mb-1 sm:mx-auto sm:w-full sm:max-w-sm">
 					<Link href="/">
 						<p className="flex gap-2">
