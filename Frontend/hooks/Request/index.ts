@@ -1,6 +1,8 @@
+"use client"
 import axios from "axios";
 
-axios.defaults.baseURL = window.location.hostname === "events.adityachoudhury.com"
+const isBrowser = typeof window !== 'undefined';
+axios.defaults.baseURL = isBrowser && window.location.hostname === "events.adityachoudhury.com"
     ? "https://events-backend.adityachoudhury.com"
     : "http://localhost:5000";
 axios.defaults.withCredentials = true;
