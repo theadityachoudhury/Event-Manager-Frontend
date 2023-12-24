@@ -21,9 +21,6 @@ const UserProfile: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// const response = await axios.get<{ data: UserData }>(
-				// 	"https://events-backend.adityachoudhury.com/api/auth/user"
-				// );
 				const response = await makeRequest({
 					data: "",
 					url: "/api/auth/user",

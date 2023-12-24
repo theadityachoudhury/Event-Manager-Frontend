@@ -12,6 +12,7 @@ import makeRequest from "@/hooks/Request";
 import toast from "react-hot-toast";
 import delay from "@/hooks/Delay";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Page = () => {
 	const router = useRouter();
@@ -53,7 +54,7 @@ const Page = () => {
 				},
 			});
 			await delay(3000);
-			router.push("/success");
+			router.push("/dashboard");
 		} catch (error: any) {
 			console.log(error);
 			if (error instanceof ZodError) {
@@ -65,6 +66,46 @@ const Page = () => {
 				});
 				setFormError(fieldErrors);
 				console.log(formError);
+			}
+
+			if (axios.isAxiosError(error)) {
+				toast.error(error.response?.data.message || error.message, {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#fa776c",
+					},
+					iconTheme: {
+						primary: "#fa776c",
+						secondary: "#FFFAEE",
+					},
+				});
+				if (error?.response?.status == 404)
+					setFormError({
+						...formError,
+						account:
+							"Unable to find an account connected to this Email-Id!! Please Signup!!",
+					});
+				else if (error?.response?.status == 406)
+					setFormError({
+						...formError,
+						account:
+							"Unable to generate Session tokens!! Try reloading the page!!",
+					});
+				else if (error?.response?.status == 401)
+					setFormError({
+						...formError,
+						account:
+							"Your password is incorrect!! Please try again or reset your password!!",
+					});
+				else if (error?.response?.status == 500)
+					setFormError({
+						...formError,
+						account: `Internal server error!${error.response.data.message}. Please try again later!`,
+					});
+				else if (error?.message === "Network Error") {
+					console.log("Unable to contact servers! Please try again later");
+				}
 			}
 		}
 	};
