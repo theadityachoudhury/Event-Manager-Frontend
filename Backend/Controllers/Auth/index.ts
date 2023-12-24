@@ -52,7 +52,7 @@ interface customRequest extends Request {
 }
 
 const Login_MSG = {
-	usernameNotExist: "Username is not found. Invalid login credentials.",
+	usernameNotExist: "Email is not found. Invalid login credentials.",
 	wrongRole: "Please make sure this is your identity.",
 	loginSuccess: "You are successfully logged in.",
 	wrongPassword: "Incorrect password.",
@@ -60,7 +60,7 @@ const Login_MSG = {
 };
 
 const Register_MSG = {
-	usernameExists: "Username is already taken.",
+	usernameExists: "Email is already taken.",
 	emailExists: "Email is already registered.",
 	signupSuccess: "You are successfully signed up.",
 	signupError: "Unable to create your account.",
@@ -121,7 +121,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		}
 		if (user.deleted) {
 			return res.status(404).json({
-				reason: "username",
+				reason: "email",
 				message: Login_MSG.usernameNotExist,
 				success: false,
 			});
