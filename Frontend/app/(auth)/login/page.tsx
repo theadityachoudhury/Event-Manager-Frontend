@@ -8,8 +8,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { loginFormData } from "@/types";
 import { Loginschema } from "@/Schemas";
 import { ZodError } from "zod";
+import makeRequest from "@/hooks/Request";
+import toast from "react-hot-toast";
+import delay from "@/hooks/Delay";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+	const router = useRouter();
 	const [show, setShow] = useState(false);
 	const [formError, setFormError] = useState<any>({
 		email: "",
@@ -17,8 +22,8 @@ const Page = () => {
 		account: "",
 	});
 	const [formData, setFormData] = useState<loginFormData>({
-		email: "",
-		password: "",
+		email: "adityasubham03@gmail.com",
+		password: "12345678",
 	});
 	const toggleShow = () => {
 		setShow((prevShow) => !prevShow);
@@ -27,7 +32,28 @@ const Page = () => {
 		e.preventDefault();
 		try {
 			Loginschema.parse(formData);
-			console.log("Form data is valid:", formData);
+			const response = await makeRequest({
+				data: {
+					email: formData.email,
+					password: formData.password,
+				},
+				url: "/api/auth/login",
+				type: "post",
+			});
+			setFormData({ email: "", password: "" });
+			toast.success(response.message, {
+				style: {
+					border: "1px solid",
+					padding: "16px",
+					color: "#1ccb5b",
+				},
+				iconTheme: {
+					primary: "#1ccb5b",
+					secondary: "#FFFAEE",
+				},
+			});
+			await delay(3000);
+			router.push("/success");
 		} catch (error: any) {
 			console.log(error);
 			if (error instanceof ZodError) {

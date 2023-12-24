@@ -8,15 +8,21 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { signupFormData } from "@/types";
 import { Signupschema } from "@/Schemas";
 import { ZodError } from "zod";
+import makeRequest from "@/hooks/Request";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import delay from "@/hooks/Delay";
 
 const Page = () => {
+	const router = useRouter();
 	const [show, setShow] = useState(false);
 	const [Cshow, setCShow] = useState(false);
 	const [formData, setFormData] = useState<signupFormData>({
-		email: "",
-		name: "",
-		password: "",
-		cpassword: "",
+		email: "adityasubham03@gmail.com",
+		name: "Aditya Choudhury",
+		password: "12345678",
+		cpassword: "12345678",
 	});
 	const [formError, setFormError] = useState<Record<string, string>>({
 		email: "",
@@ -34,7 +40,61 @@ const Page = () => {
 		e.preventDefault();
 		try {
 			Signupschema.parse(formData);
-			console.log("Form data is valid:", formData);
+			// makeRequest({
+			// 	data: {
+			// 		name: formData.name,
+			// 		email: formData.email,
+			// 		password: formData.password,
+			// 	},
+			// 	url: "/api/auth/signup",
+			// 	type: "post",
+			// })
+			// 	.catch((err) => {
+			// 		if (err?.response?.status == 400)
+			// 			setFormError({
+			// 				...formError,
+			// 				account:
+			// 					"Account already exists with this Email-Id!! Please Login!!",
+			// 			});
+			// 		else if (err?.response?.status == 500)
+			// 			setFormError({
+			// 				...formError,
+			// 				account: `Internal server error!${err.response.data.message}. Please try again later!`,
+			// 			});
+			// 		else if (err?.message === "Network Error") {
+			// 			console.log("Unable to contact servers! Please try again later");
+			// 		}
+			// 	})
+			// 	.then((res: any) => {
+			// 		if (res) {
+			// 			router.push("/login");
+			// 			setFormData({ email: "", password: "", cpassword: "", name: "" });
+			// 		}
+			// 	});
+
+			const response = await makeRequest({
+				data: {
+					name: formData.name,
+					email: formData.email,
+					password: formData.password,
+				},
+				url: "/api/auth/signup",
+				type: "post",
+			});
+			setFormData({ email: "", password: "", cpassword: "", name: "" });
+			toast.success(response.message, {
+				style: {
+					border: "1px solid",
+					padding: "16px",
+					color: "#1ccb5b",
+				},
+				iconTheme: {
+					primary: "#1ccb5b",
+					secondary: "#FFFAEE",
+				},
+			});
+			await delay(3000);
+			router.push("/success");
 		} catch (error) {
 			console.log(error);
 			if (error instanceof ZodError) {
@@ -45,7 +105,34 @@ const Page = () => {
 					}
 				});
 				setFormError(fieldErrors);
-				console.log(formError);
+			}
+
+			if (axios.isAxiosError(error)) {
+				toast.error(error.response?.data.message || error.message, {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#fa776c",
+					},
+					iconTheme: {
+						primary: "#fa776c",
+						secondary: "#FFFAEE",
+					},
+				});
+				if (error?.response?.status == 400)
+					setFormError({
+						...formError,
+						account:
+							"Account already exists with this Email-Id!! Please Login!!",
+					});
+				else if (error?.response?.status == 500)
+					setFormError({
+						...formError,
+						account: `Internal server error!${error.response.data.message}. Please try again later!`,
+					});
+				else if (error?.message === "Network Error") {
+					console.log("Unable to contact servers! Please try again later");
+				}
 			}
 		}
 	};
@@ -120,7 +207,6 @@ const Page = () => {
 										onChange={(e) => {
 											setFormData({ ...formData, email: e.target.value });
 											setFormError({ ...formError, email: "" });
-
 										}}
 										className="block w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
 									/>
@@ -147,7 +233,6 @@ const Page = () => {
 										onChange={(e) => {
 											setFormData({ ...formData, name: e.target.value });
 											setFormError({ ...formError, name: "" });
-
 										}}
 										className="block w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
 									/>
@@ -182,9 +267,11 @@ const Page = () => {
 											placeholder="Enter your Password"
 											value={formData.password}
 											onChange={(e) => {
-												setFormData({ ...formData, password: e.target.value });
-											setFormError({ ...formError, password: "" });
-
+												setFormData({
+													...formData,
+													password: e.target.value,
+												});
+												setFormError({ ...formError, password: "" });
 											}}
 											className="w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
 										/>
@@ -218,8 +305,10 @@ const Page = () => {
 											placeholder="Enter Confirm Password"
 											value={formData.cpassword}
 											onChange={(e) => {
-												setFormData({ ...formData, cpassword: e.target.value });
-
+												setFormData({
+													...formData,
+													cpassword: e.target.value,
+												});
 											}}
 											className="w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
 										/>
