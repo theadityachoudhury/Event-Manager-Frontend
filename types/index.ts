@@ -8,5 +8,10 @@ export type ForgetFormData = z.infer<typeof Forgetschema>;
 export type ResetFormData = z.infer<typeof Resetschema>;
 
 
-
-
+export type User = {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    verified: boolean;
+};

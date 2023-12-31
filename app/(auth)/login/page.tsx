@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useTransition } from "react";
 import { AlertCircle, Eye, EyeOff, MoveLeft } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { loginFormData } from "@/types";
@@ -13,9 +13,11 @@ import toast from "react-hot-toast";
 import delay from "@/hooks/Delay";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { login } from "@/actions/auth";
 
 const Page = () => {
 	const router = useRouter();
+	const [pending, startTransition] = useTransition();
 	const [show, setShow] = useState(false);
 	const [formError, setFormError] = useState<any>({
 		email: "",
@@ -31,83 +33,108 @@ const Page = () => {
 	};
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		try {
-			Loginschema.parse(formData);
-			const response = await makeRequest({
-				data: {
-					email: formData.email,
-					password: formData.password,
-				},
-				url: "/api/auth/login",
-				type: "post",
-			});
-			setFormData({ email: "", password: "" });
-			toast.success(response.message, {
-				style: {
-					border: "1px solid",
-					padding: "16px",
-					color: "#1ccb5b",
-				},
-				iconTheme: {
-					primary: "#1ccb5b",
-					secondary: "#FFFAEE",
-				},
-			});
-			await delay(3000);
-			router.push("/dashboard");
-		} catch (error: any) {
-			console.log(error);
-			if (error instanceof ZodError) {
-				const fieldErrors: Record<string, string> = {};
-				error.errors.forEach((err) => {
-					if (err.path) {
-						fieldErrors[err.path[0]] = err.message;
-					}
-				});
-				setFormError(fieldErrors);
-				console.log(formError);
-			}
+		startTransition(() => {
+			try {
+				Loginschema.parse(formData);
+				login({ ...formData });
+				// const result = await signIn("credentials", {
+				// 	email: formData.email,
+				// 	password: formData.password,
+				// 	redirect: true,
+				// 	callbackUrl: "/user",
+				// });
 
-			if (axios.isAxiosError(error)) {
-				toast.error(error.response?.data.message || error.message, {
-					style: {
-						border: "1px solid",
-						padding: "16px",
-						color: "#fa776c",
-					},
-					iconTheme: {
-						primary: "#fa776c",
-						secondary: "#FFFAEE",
-					},
-				});
-				if (error?.response?.status == 404)
-					setFormError({
-						...formError,
-						account:
-							"Unable to find an account connected to this Email-Id!! Please Signup!!",
+				// console.log(result);
+			} catch (error) {
+				if (error instanceof ZodError) {
+					const fieldErrors: Record<string, string> = {};
+					error.errors.forEach((err) => {
+						if (err.path) {
+							fieldErrors[err.path[0]] = err.message;
+						}
 					});
-				else if (error?.response?.status == 406)
-					setFormError({
-						...formError,
-						account:
-							"Unable to generate Session tokens!! Try reloading the page!!",
-					});
-				else if (error?.response?.status == 401)
-					setFormError({
-						...formError,
-						account:
-							"Your password is incorrect!! Please try again or reset your password!!",
-					});
-				else if (error?.response?.status == 500)
-					setFormError({
-						...formError,
-						account: `Internal server error!${error.response.data.message}. Please try again later!`,
-					});
-				else if (error?.message === "Network Error") {
-					console.log("Unable to contact servers! Please try again later");
+					setFormError(fieldErrors);
+					console.log(formError);
 				}
 			}
-		}
+			// try {
+			// 	Loginschema.parse(formData);
+			// 	const response = await makeRequest({
+			// 		data: {
+			// 			email: formData.email,
+			// 			password: formData.password,
+			// 		},
+			// 		url: "/api/auth/login",
+			// 		type: "post",
+			// 	});
+			// 	setFormData({ email: "", password: "" });
+			// 	toast.success(response.message, {
+			// 		style: {
+			// 			border: "1px solid",
+			// 			padding: "16px",
+			// 			color: "#1ccb5b",
+			// 		},
+			// 		iconTheme: {
+			// 			primary: "#1ccb5b",
+			// 			secondary: "#FFFAEE",
+			// 		},
+			// 	});
+			// 	await delay(3000);
+			// 	router.push("/dashboard");
+			// } catch (error: any) {
+			// 	console.log(error);
+			// 	if (error instanceof ZodError) {
+			// 		const fieldErrors: Record<string, string> = {};
+			// 		error.errors.forEach((err) => {
+			// 			if (err.path) {
+			// 				fieldErrors[err.path[0]] = err.message;
+			// 			}
+			// 		});
+			// 		setFormError(fieldErrors);
+			// 		console.log(formError);
+			// 	}
+
+			// 	if (axios.isAxiosError(error)) {
+			// 		toast.error(error.response?.data.message || error.message, {
+			// 			style: {
+			// 				border: "1px solid",
+			// 				padding: "16px",
+			// 				color: "#fa776c",
+			// 			},
+			// 			iconTheme: {
+			// 				primary: "#fa776c",
+			// 				secondary: "#FFFAEE",
+			// 			},
+			// 		});
+			// 		if (error?.response?.status == 404)
+			// 			setFormError({
+			// 				...formError,
+			// 				account:
+			// 					"Unable to find an account connected to this Email-Id!! Please Signup!!",
+			// 			});
+			// 		else if (error?.response?.status == 406)
+			// 			setFormError({
+			// 				...formError,
+			// 				account:
+			// 					"Unable to generate Session tokens!! Try reloading the page!!",
+			// 			});
+			// 		else if (error?.response?.status == 401)
+			// 			setFormError({
+			// 				...formError,
+			// 				account:
+			// 					"Your password is incorrect!! Please try again or reset your password!!",
+			// 			});
+			// 		else if (error?.response?.status == 500)
+			// 			setFormError({
+			// 				...formError,
+			// 				account: `Internal server error!${error.response.data.message}. Please try again later!`,
+			// 			});
+			// 		else if (error?.message === "Network Error") {
+			// 			console.log("Unable to contact servers! Please try again later");
+			// 		}
+			// 	}
+			// }
+		});
 	};
 	return (
 		<>
@@ -177,6 +204,7 @@ const Page = () => {
 										autoComplete="off"
 										placeholder="Enter your E-Mail"
 										value={formData.email}
+										disabled={pending}
 										onChange={(e) => {
 											setFormData({ ...formData, email: e.target.value });
 											setFormError({ ...formError, email: "" });
@@ -211,6 +239,7 @@ const Page = () => {
 											name="password"
 											type={show ? "text" : "password"}
 											autoComplete="current-password"
+											disabled={pending}
 											placeholder="Enter your Password"
 											value={formData.password}
 											onChange={(e) => {
@@ -233,6 +262,7 @@ const Page = () => {
 
 							<div>
 								<button
+									disabled={pending}
 									type="submit"
 									className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 									Sign in
