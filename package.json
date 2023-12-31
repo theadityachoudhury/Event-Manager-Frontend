@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "lint": "next lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -14,8 +17,12 @@
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
     "lucide-react": "^0.299.0",
     "next": "14.0.4",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.10",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
@@ -28,8 +35,18 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
+    "husky": "^8.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": "eslint --cache --cache-location .next/cache/eslint/ --fix",
+    "**/*.{ts,js,md,json}": "prettier --write"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=10.2.5",
+    "yarn": "use-npm"
   }
 }
