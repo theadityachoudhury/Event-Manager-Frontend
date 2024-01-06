@@ -9,12 +9,12 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
-    "lint:fix": "next lint --fix",
     "format": "prettier --write ."
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -27,11 +27,11 @@
     "husky": "^8.0.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
     "vite": "^5.0.8"
   },
   "lint-staged": {
-    "**/*.{ts,js}": "eslint --cache --cache-location .next/cache/eslint/ --fix",
-    "**/*.{ts,js,md,json}": "prettier --write"
+    "**/*.{js,md,json}": "prettier --write"
   },
   "engines": {
     "node": ">=18.0.0",
