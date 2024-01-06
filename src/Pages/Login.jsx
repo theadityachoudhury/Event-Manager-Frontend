@@ -11,7 +11,7 @@ const Login = () => {
 	const [params] = useSearchParams();
 	const callback = params.get("callback");
 	if (callback == "/") return <Navigate to="/dashboard" />;
-	const { login, user,ready } = useUserContext();
+	const { login, user, ready } = useUserContext();
 	const [pending, startTransition] = useTransition();
 	const [show, setShow] = useState(false);
 	const [formError, setFormError] = useState({
@@ -311,4 +311,4 @@ const Login = () => {
 	}
 };
 
-export default Login ;
+export default Login;
