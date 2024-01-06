@@ -7,6 +7,9 @@ import Verify from "./pages/Verify";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./Layout";
 import axios from "axios";
+import Success from "./pages/Success";
+import Register from "./pages/Register";
+import Forget from "./pages/Forget";
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
 		? "https://backend.evently.adityachoudhury.com"
@@ -20,12 +23,16 @@ function App() {
 		<UserContextProvider>
 			<Routes>
 				<Route path="/" element={<Layout />}>
-					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/dashboard" element={<Dashboard title="Dashboard" />} />
 				</Route>
-				<Route path="/login" element={<Login />} />
-				<Route path="/verify" element={<Verify />} />
+				<Route path="/login" element={<Login title="Login" />} />
+				<Route path="/verify" element={<Verify title="Verify Account" />} />
+				<Route path="/success" element={<Success title="Success" />} />
+				<Route path="/register" element={<Register title="Register" />} />
+				<Route path="/forget" element={<Forget title="Forget Password" />} />
 
-				<Route index element={<Home />} />
+
+				<Route index element={<Home title="Home" />} />
 			</Routes>
 		</UserContextProvider>
 	);

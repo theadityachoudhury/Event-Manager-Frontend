@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
-const Verify = () => {
-  return (
-    <div>Verify</div>
-  )
-}
+const Verify = ({ title }) => {
+	useEffect(() => {
+		// Update the document title when the component mounts
+		document.title = title + " | Evently";
 
-export default Verify
+		// Optionally, you can return a cleanup function to revert the title when the component unmounts
+		return () => {
+			document.title = "Evently"; // Set your default title here
+		};
+	}, [title]);
+	return <div>Verify</div>;
+};
+
+export default Verify;

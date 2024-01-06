@@ -5,9 +5,8 @@ import Loader from "./pages/components/Loader";
 
 export default function Layout() {
   const { user, ready } = useUserContext();
-  console.log(ready, user);
   if (!ready) {
-    return <Loader />;
+    return <Loader title="Loading" />;
   }
   if (!user && ready) {
     const callbackurl = window.location.pathname;
