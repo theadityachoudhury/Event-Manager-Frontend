@@ -12,7 +12,7 @@ import {
 	Login,
 	Register,
 	Verify,
-} from "./pages";
+} from "./Pages";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
