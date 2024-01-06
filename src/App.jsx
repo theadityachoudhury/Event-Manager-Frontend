@@ -3,16 +3,14 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./UserContext";
 import Layout from "./Layout";
-import {
-	About,
-	Contact,
-	Dashboard,
-	Events,
-	Home,
-	Login,
-	Register,
-	Verify,
-} from "./pages";
+import Dashboard from "./pages/Dashboard";
+import Events from "./pages/Events";
+import Verify from "./pages/Verify";
+import Home from "./pages/Home";
+import Login from "./Pages/Login";
+import Register from "./pages/Register";
+import About from "./Pages/About";
+import Contact from "./pages/Contact";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"

@@ -4,4 +4,4 @@ const Events = () => {
 	return <div>Events</div>;
 };
 
-export  {Events};
+export default  Events;

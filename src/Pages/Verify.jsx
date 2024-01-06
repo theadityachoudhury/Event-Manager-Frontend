@@ -4,4 +4,4 @@ const Verify = () => {
 	return <div>Verify</div>;
 };
 
-export { Verify };
+export default Verify;
