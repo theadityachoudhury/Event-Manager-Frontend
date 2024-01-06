@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky install",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -21,6 +24,18 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^8.0.0",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "vite": "^5.0.8"
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": "eslint --cache --cache-location .next/cache/eslint/ --fix",
+    "**/*.{ts,js,md,json}": "prettier --write"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=10.2.5",
+    "yarn": "use-npm"
   }
 }
