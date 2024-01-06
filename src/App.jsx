@@ -3,7 +3,6 @@ import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./UserContext";
 import Layout from "./Layout";
-import Dashboard from "./pages/dash";
 import Verify from "./pages/Verify";
 import Home from "./pages/Home";
 import Login from "./Pages/Login";
@@ -21,7 +20,6 @@ function App() {
 		<UserContextProvider>
 			<Routes>
 				<Route path="/" element={<Layout />}>
-					<Route path="/dashboard" element={<Dashboard />} />
 				</Route>
 				<Route path="/verify" element={<Verify />} />
 				<Route index element={<Home />} />
