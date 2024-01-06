@@ -2,10 +2,7 @@ import axios from "axios";
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./UserContext";
-import Layout from "./Layout";
-import Verify from "./pages/Verify";
 import Home from "./pages/Home";
-import Login from "./Pages/Login";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -19,11 +16,7 @@ function App() {
 	return (
 		<UserContextProvider>
 			<Routes>
-				<Route path="/" element={<Layout />}>
-				</Route>
-				<Route path="/verify" element={<Verify />} />
-				<Route index element={<Home />} />
-				<Route path="/login" element={<Login />} />
+				<Route path="/" index element={<Home/>}/>
 			</Routes>
 		</UserContextProvider>
 	);
