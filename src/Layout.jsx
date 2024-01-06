@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "./Header";
 
-import Loader from "./pages/components/Loader";
 import { useUserContext } from "./UserContext";
+import Loader from "./pages/components/Loader";
 
 export default function Layout() {
 	const { user, ready } = useUserContext();
