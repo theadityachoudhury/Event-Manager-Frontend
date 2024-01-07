@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function Loader({ title }) {
 	useEffect(() => {
 		// Update the document title when the component mounts
