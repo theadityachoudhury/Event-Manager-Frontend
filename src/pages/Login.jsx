@@ -20,7 +20,7 @@ const Login = ({ title }) => {
 	const [params] = useSearchParams();
 	const callback = params.get("callback");
 	if (callback == "/") return <Navigate to="/dashboard" />;
-	const { login, user, ready } = useUserContext();
+	const { login, user, ready, authenticated } = useUserContext();
 	const [pending, startTransition] = useTransition();
 	const [show, setShow] = useState(false);
 	const [formError, setFormError] = useState({
@@ -120,13 +120,13 @@ const Login = ({ title }) => {
 		});
 	};
 
-	if (user && ready) {
+	if (authenticated && user && ready) {
 		if (callback) {
 			return <Navigate to={callback} />;
 		}
 		return <Navigate to="/dashboard" />;
 	}
-	if (!user && ready) {
+	if (!authenticated && !user && ready) {
 		return (
 			<>
 				<div className="">

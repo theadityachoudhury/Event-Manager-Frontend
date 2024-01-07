@@ -4,16 +4,16 @@ import { useUserContext } from "./UserContext";
 import Loader from "./pages/components/Loader";
 
 export default function Layout() {
-	const { user, ready } = useUserContext();
+	const { user, ready, authenticated } = useUserContext();
 	if (!ready) {
 		return <Loader title="Loading" />;
 	}
-	if (!user && ready) {
+	if (!authenticated && !user && ready) {
 		const callbackurl = window.location.pathname;
 		console.log(callbackurl);
 		return <Navigate to={"/login?callback=" + callbackurl} />;
 	}
-	if (user && ready && !user.data.verified) {
+	if (authenticated && user && ready && !user.data.verified) {
 		const callbackurl = window.location.pathname;
 		console.log(callbackurl);
 		return <Navigate to={"/verify?callback=" + callbackurl} />;
@@ -21,7 +21,7 @@ export default function Layout() {
 	return (
 		<>
 			<Header isPublic={false} />
-			{user && ready && user.data.verified && <Outlet />}
+			{authenticated && user && ready && user.data.verified && <Outlet />}
 		</>
 	);
 }

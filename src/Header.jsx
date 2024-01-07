@@ -21,7 +21,7 @@ export default function Header({ isPublic }) {
 	if (!ready) {
 		return (
 			<>
-				<Loader />
+				<Loader title="Loading" />
 			</>
 		);
 	}

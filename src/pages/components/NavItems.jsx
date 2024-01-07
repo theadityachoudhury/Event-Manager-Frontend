@@ -46,7 +46,7 @@ const NavItems = () => {
 							<div className="flex justify-end">
 								<button
 									onClick={toggleMenu}
-									className="text-gray-600 hover:text-gray-800 focus:outline-none text-2xl">
+									className="text-gray-600 hover:text-gray-800 focus:outline-none text-2xl mb-5">
 									&#10006;
 								</button>
 							</div>

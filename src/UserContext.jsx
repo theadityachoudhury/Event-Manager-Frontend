@@ -74,7 +74,8 @@ export function UserContextProvider({ children }) {
 		if (authenticated) {
 			refreshAccessTokenInterval = setInterval(
 				refreshAccessToken,
-				5 * 60 * 60 * 1000
+				 50 * 1000
+				// 5 * 60 * 60 * 1000
 				// 10*1000
 			);
 		}
@@ -97,7 +98,18 @@ export function UserContextProvider({ children }) {
 		Cookies.set("authenticated", "true", { expires: 7 }); // Set cookie to expire in 7 days
 	};
 
-	const logout = () => {
+	const logout = async () => {
+		try {
+			let config = {
+				method: "get",
+				maxBodyLength: Infinity,
+				url: "/api/auth/logout",
+				headers: {},
+			};
+			const response = await axios.request(config);
+		} catch (error) {
+			console.log(error);
+		}
 		setAuthenticated(false);
 		setUser(null);
 		Cookies.remove("token");
