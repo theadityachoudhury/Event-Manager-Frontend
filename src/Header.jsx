@@ -5,9 +5,15 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "./pages/components/Loader.jsx";
 import { useUserContext } from "./UserContext.jsx";
 import NavItems from "./pages/components/NavItems.jsx";
+import { useState } from "react";
 
 export default function Header() {
-	const { user, setUser, ready, authenticated } = useUserContext();
+	const [showDropdown, setShowDropdown] = useState(false);
+
+	const handleDropdownToggle = () => {
+		setShowDropdown(!showDropdown);
+	};
+	const { user, setUser, ready, logout, authenticated } = useUserContext();
 	function delay(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
@@ -186,11 +192,37 @@ export default function Header() {
 							</Link>
 						)}
 						{authenticated && (
-							<Link
-								to="/logout"
-								className="text-white bg-black hover:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-red-400 focus:outline-none">
-								Logout
-							</Link>
+							<div className="flex justify-end gap-3 relative">
+								{/* Logout button */}
+								<button
+									onClick={handleDropdownToggle}
+									className="text-white bg-black hover:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-red-400 focus:outline-none relative">
+									Logout
+									{/* Dropdown arrow */}
+									<span className="ml-2">&#9660;</span>
+								</button>
+
+								{/* Dropdown content */}
+								{showDropdown && (
+									<div className="absolute right-0 mt-11 w-32 bg-black shadow-md rounded-lg text-left">
+										<Link
+											to="/profile"
+											className="block px-4 py-2 text-sm text-white">
+											Profile
+										</Link>
+										<Link
+											to="/settings"
+											className="block px-4 py-2 text-sm text-white">
+											Settings
+										</Link>
+										<button
+											onClick={logout}
+											className="block px-4 py-2 text-sm text-red-500">
+											Logout
+										</button>
+									</div>
+								)}
+							</div>
 						)}
 					</div>
 				</div>

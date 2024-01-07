@@ -9,9 +9,7 @@ export function UserContextProvider({ children }) {
 		Cookies.get("authenticated") === "true" || false
 	);
 
-	const [user, setUser] = useState(
-		Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null
-	);
+	const [user, setUser] = useState(null);
 	const [ready, setReady] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -25,10 +23,13 @@ export function UserContextProvider({ children }) {
 		try {
 			const response = await axios.get("/api/auth/user");
 			if (response.data === null) {
+				console.log("here");
 				setUser(null);
+				setAuthenticated(false);
 			} else {
-				setUser(response.data.data);
+				setUser({ ...response.data });
 			}
+
 			setError(null);
 		} catch (error) {
 			console.error(error);
@@ -99,8 +100,11 @@ export function UserContextProvider({ children }) {
 	const logout = () => {
 		setAuthenticated(false);
 		setUser(null);
-		Cookies.remove("authenticated");
-		Cookies.remove("user");
+		Cookies.remove("token");
+		Cookies.remove("accessToken");
+		Cookies.remove("refreshToken");
+		Cookies.set("authenticated", "false");
+		Cookies.remove("refreshAccessToken");
 	};
 
 	return (
