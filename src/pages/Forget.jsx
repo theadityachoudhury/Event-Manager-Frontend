@@ -2,6 +2,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { AlertCircle, MoveLeft } from "lucide-react";
 import { ForgetSchema } from "../schema";
 import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Forget = ({ title }) => {
 	useEffect(() => {
@@ -37,23 +38,23 @@ const Forget = ({ title }) => {
 		}
 	};
 	return (
-        <>
-            <div className="">
-					<Toaster position="bottom-right" reverseOrder={true} />
-				</div>
-			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:px-4">
+		<>
+			<div className="">
+				<Toaster position="bottom-right" reverseOrder={true} />
+			</div>
+			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:px-4">
 				<div className="hidden md:block mb-1 sm:mx-auto sm:w-full sm:max-w-sm">
-					<a href="/">
+					<Link to="/">
 						<p className="flex gap-2">
 							<MoveLeft />
 							Back to Home
 						</p>
-					</a>
+					</Link>
 				</div>
 
 				<div className="md:rounded-md md:border md:border-gray-300 md:shadow-md md:p-6 mx-auto">
 					<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-						<a href="/">
+						<Link to="/">
 							<img
 								className="mx-auto h-10 w-auto"
 								src="/assets/images/logo.svg"
@@ -61,7 +62,7 @@ const Forget = ({ title }) => {
 								width={128}
 								height={40}
 							/>
-						</a>
+						</Link>
 						<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 							Recover your Account
 						</h2>
@@ -110,9 +111,9 @@ const Forget = ({ title }) => {
 											</p>
 											<p className="text-sm">
 												Please contact{" "}
-												<a href="mailto:support@adityachoudhury.com">
+												<Link to="mailto:support@adityachoudhury.com">
 													support@adityachoudhury.com
-												</a>{" "}
+												</Link>{" "}
 												if you face any issues!!
 											</p>
 										</div>
@@ -159,20 +160,20 @@ const Forget = ({ title }) => {
 
 						<p className="mt-10 text-center text-sm text-gray-500">
 							Wanna Login?{" "}
-							<a
-								href="/signup"
+							<Link
+								to="/login"
 								className="font-semibold leading-6 text-red-400 hover:text-indigo-600">
 								Login Here
-							</a>
+							</Link>
 						</p>
 					</div>
 					<div className="md:hidden flex  m-3 justify-center sm:mx-auto sm:w-full sm:max-w-sm">
-						<a href="/">
+						<Link to="/">
 							<p className="flex gap-2">
 								<MoveLeft />
 								Back to Home
 							</p>
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ const Dashboard = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
-	return <div>Dashboard</div>;
+	return <div>F</div>;
 };
 
 export default Dashboard;

@@ -115,7 +115,7 @@ const Register = ({ title }) => {
 			<div className="">
 				<Toaster position="bottom-right" reverseOrder={true} />
 			</div>
-			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 sm:px-4 lg:px-8">
+			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 sm:px-4 lg:px-8">
 				<div className="mb-1 hidden sm:mx-auto sm:w-full sm:max-w-sm md:block">
 					<a href="/">
 						<p className="flex gap-2">

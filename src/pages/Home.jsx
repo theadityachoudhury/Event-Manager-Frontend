@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "../Header";
+import { Link } from "react-router-dom";
 
 const Home = ({ title }) => {
 	useEffect(() => {
@@ -28,7 +29,7 @@ const Home = ({ title }) => {
 									you covered.
 								</p>
 								<button size="lg" className="button w-full sm:w-fit">
-									<a href="#events">Explore Now</a>
+									<Link to="#events">Explore Now</Link>
 								</button>
 							</div>
 

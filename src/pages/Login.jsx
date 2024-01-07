@@ -5,7 +5,7 @@ import axios from "axios";
 import { LoginSchema } from "../schema";
 import delay from "./components/delay";
 import { useUserContext } from "../UserContext";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 
 const Login = ({ title }) => {
 	useEffect(() => {
@@ -132,19 +132,19 @@ const Login = ({ title }) => {
 				<div className="">
 					<Toaster position="bottom-right" reverseOrder={true} />
 				</div>
-				<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 sm:px-4 lg:px-8">
+				<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 sm:px-4 lg:px-8">
 					<div className="mb-1 hidden sm:mx-auto sm:w-full sm:max-w-sm md:block">
-						<a href="/">
+						<Link to="/">
 							<p className="flex gap-2">
 								<MoveLeft />
 								Back to Home
 							</p>
-						</a>
+						</Link>
 					</div>
 
 					<div className="mx-auto md:rounded-md md:border md:border-gray-300 md:p-6 md:shadow-md">
 						<div className="sm:mx-auto sm:w-full sm:max-w-sm">
-							<a href="/">
+							<Link to="/">
 								<img
 									className="mx-auto h-10 w-auto"
 									src="/assets/images/logo.svg"
@@ -152,7 +152,7 @@ const Login = ({ title }) => {
 									width={128}
 									height={40}
 								/>
-							</a>
+							</Link>
 							<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 								Sign in to your account
 							</h2>
@@ -201,9 +201,9 @@ const Login = ({ title }) => {
 												</p>
 												<p className="text-sm">
 													Please contact{" "}
-													<a href="mailto:support@adityachoudhury.com">
+													<Link to="mailto:support@adityachoudhury.com">
 														support@adityachoudhury.com
-													</a>{" "}
+													</Link>{" "}
 													if you face any issues!!
 												</p>
 											</div>
@@ -248,11 +248,11 @@ const Login = ({ title }) => {
 											Password
 										</label>
 										<div className="text-sm">
-											<a
-												href="/forget"
+											<Link
+												to="/forget"
 												className="font-semibold text-indigo-600 hover:text-red-400">
 												Forgot password?
-											</a>
+											</Link>
 										</div>
 									</div>
 									<div className="flex items-center justify-between">
@@ -298,20 +298,20 @@ const Login = ({ title }) => {
 
 							<p className="mt-10 text-center text-sm text-gray-500">
 								Not a member?{" "}
-								<a
-									href="/signup"
+								<Link
+									to="/register"
 									className="font-semibold leading-6 text-red-400 hover:text-indigo-600">
 									Signup Here
-								</a>
+								</Link>
 							</p>
 						</div>
 						<div className="m-3 flex  justify-center sm:mx-auto sm:w-full sm:max-w-sm md:hidden">
-							<a href="/">
+							<Link to="/">
 								<p className="flex gap-2">
 									<MoveLeft />
 									Back to Home
 								</p>
-							</a>
+							</Link>
 						</div>
 					</div>
 				</div>

@@ -7,7 +7,7 @@ import { useUserContext } from "./UserContext.jsx";
 import NavItems from "./pages/components/NavItems.jsx";
 import { useState } from "react";
 
-export default function Header() {
+export default function Header({ isPublic }) {
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	const handleDropdownToggle = () => {
@@ -227,7 +227,7 @@ export default function Header() {
 					</div>
 				</div>
 			</header>
-			<Outlet />
+			{isPublic && <Outlet />}
 		</>
 	);
 }

@@ -12,7 +12,7 @@ const Success = ({ title }) => {
 	}, [title]);
 	return (
 		<>
-			<div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:px-4">
+			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 sm:px-4">
 				<div className="md:rounded-md md:border md:border-gray-300 md:shadow-md md:p-6 mx-auto">
 					<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 						<a href="/">

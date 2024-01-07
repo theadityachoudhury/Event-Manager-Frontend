@@ -28,7 +28,7 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route path="/dashboard" element={<Dashboard title="Dashboard" />} />
 				</Route>
-				<Route path="/" element={<Header />}>
+				<Route path="/" element={<Header isPublic={true} />}>
 					<Route path="/login" element={<Login title="Login" />} />
 					<Route path="/verify" element={<Verify title="Verify Account" />} />
 					<Route path="/success" element={<Success title="Success" />} />
