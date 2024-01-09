@@ -12,7 +12,7 @@ import delay from "./components/delay";
 const Verify = ({ title }) => {
 	const [params] = useSearchParams();
 	const callback = params.get("callback");
-	const { user, authenticated, ready } = useUserContext();
+	const { user, authenticated, ready, verify } = useUserContext();
 
 	useEffect(() => {
 		// Update the document title when the component mounts
@@ -29,6 +29,7 @@ const Verify = ({ title }) => {
 		email: "",
 		account: "",
 	});
+	const [request, setRequest] = useState(false);
 
 	const [formData, setFormData] = useState({
 		email: user?.data?.email || "",
@@ -81,6 +82,7 @@ const Verify = ({ title }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setRequest(true);
 		try {
 			VerifySchema.validateSync(formData, { abortEarly: false });
 			let config = {
@@ -108,10 +110,14 @@ const Verify = ({ title }) => {
 				},
 			});
 			setFormData({ otp: "" });
-			await delay(5000);
+			setRequest(false);
+			verify();
+			await delay(3000);
 			setRedirect(true);
 		} catch (error) {
 			const fieldErrors = {};
+			setRequest(false);
+
 			if (error.inner) {
 				error.inner.forEach((err) => {
 					fieldErrors[err.path] = err.message;
@@ -302,7 +308,11 @@ const Verify = ({ title }) => {
 									<button
 										type="submit"
 										className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-										Verify OTP
+										{request ? (
+											<Loader spinner={true} text="Verifying OTP" />
+										) : (
+											"Verify OTP"
+										)}
 									</button>
 								</div>
 							</form>

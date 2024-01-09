@@ -305,3 +305,19 @@ body {
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 }
+
+.spinner {
+	animation-name: spin;
+	animation-duration: 500ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

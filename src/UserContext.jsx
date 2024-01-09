@@ -23,7 +23,6 @@ export function UserContextProvider({ children }) {
 		try {
 			const response = await axios.get("/api/auth/user");
 			if (response.data === null) {
-				console.log("here");
 				setUser(null);
 				setAuthenticated(false);
 			} else {
@@ -74,7 +73,7 @@ export function UserContextProvider({ children }) {
 		if (authenticated) {
 			refreshAccessTokenInterval = setInterval(
 				refreshAccessToken,
-				 50 * 1000
+				50 * 1000
 				// 5 * 60 * 60 * 1000
 				// 10*1000
 			);
@@ -96,6 +95,11 @@ export function UserContextProvider({ children }) {
 		});
 		Cookies.set("refreshAccessToken", backendTokens.refreshToken);
 		Cookies.set("authenticated", "true", { expires: 7 }); // Set cookie to expire in 7 days
+	};
+	const verify = () => {
+		setUser({ ...user, verified: true });
+		console.log("verify called");
+		fetchUser();
 	};
 
 	const logout = async () => {
@@ -130,6 +134,7 @@ export function UserContextProvider({ children }) {
 				authenticated,
 				login,
 				logout,
+				verify,
 			}}>
 			{children}
 		</UserContext.Provider>

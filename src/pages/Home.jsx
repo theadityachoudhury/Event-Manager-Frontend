@@ -1,3 +1,4 @@
+"use server";
 import React, { useEffect } from "react";
 import Header from "../Header";
 import { Link } from "react-router-dom";

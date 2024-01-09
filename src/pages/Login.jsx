@@ -6,6 +6,7 @@ import { LoginSchema } from "../schema";
 import delay from "./components/delay";
 import { useUserContext } from "../UserContext";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
+import Loader from "./components/Loader";
 
 const Login = ({ title }) => {
 	useEffect(() => {
@@ -22,7 +23,9 @@ const Login = ({ title }) => {
 	if (callback == "/") return <Navigate to="/dashboard" />;
 	const { login, user, ready, authenticated } = useUserContext();
 	const [pending, startTransition] = useTransition();
+	console.log(pending);
 	const [show, setShow] = useState(false);
+	const [request, setRequest] = useState(false);
 	const [formError, setFormError] = useState({
 		email: "",
 		password: "",
@@ -37,6 +40,7 @@ const Login = ({ title }) => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setRequest(true);
 		console.log("handlesubmit");
 		startTransition(async () => {
 			try {
@@ -52,8 +56,8 @@ const Login = ({ title }) => {
 					data: formData,
 				};
 				const response = await axios.request(config);
-				console.log(response.data);
 				setFormData({ email: "", password: "" });
+				setRequest(false);
 				toast.success("Login Successful", {
 					style: {
 						border: "1px solid",
@@ -69,6 +73,8 @@ const Login = ({ title }) => {
 				await delay(3000);
 			} catch (error) {
 				// Validation failed
+				setRequest(false);
+
 				const fieldErrors = {};
 				if (error.inner) {
 					error.inner.forEach((err) => {
@@ -288,10 +294,14 @@ const Login = ({ title }) => {
 
 								<div>
 									<button
-										disabled={pending}
+										disabled={request}
 										type="submit"
 										className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-										Sign in
+										{request ? (
+											<Loader spinner={true} text="Logging You In" />
+										) : (
+											"Sign in"
+										)}
 									</button>
 								</div>
 							</form>
