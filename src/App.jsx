@@ -13,6 +13,7 @@ import Forget from "./pages/Forget";
 import Header from "./Header";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import FaceReg from "./pages/FaceReg";
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
 		? "https://backend.evently.adityachoudhury.com"
@@ -31,6 +32,7 @@ function App() {
 				<Route path="/" element={<Header isPublic={true} />}>
 					<Route path="/login" element={<Login title="Login" />} />
 					<Route path="/verify" element={<Verify title="Verify Account" />} />
+					<Route path="/face" element={<FaceReg title="Face Registration" />} />
 					<Route path="/success" element={<Success title="Success" />} />
 					<Route path="/register" element={<Register title="Register" />} />
 					<Route path="/forget" element={<Forget title="Forget Password" />} />
