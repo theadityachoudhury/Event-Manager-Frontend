@@ -105,7 +105,7 @@ export function UserContextProvider({ children }) {
 	const logout = async () => {
 		try {
 			let config = {
-				method: "get",
+				method: "POST",
 				maxBodyLength: Infinity,
 				url: "/api/auth/logout",
 				headers: {},
