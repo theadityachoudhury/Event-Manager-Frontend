@@ -15,7 +15,7 @@ const Home = ({ title }) => {
 	return (
 		<>
 			<div className="flex h-screen flex-col">
-				<main className="flex-1">
+				<main className="flex-1 bg-dotted-pattern bg-contain">
 					<section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
 						<div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
 							<div className="flex flex-col justify-center gap-8">
@@ -28,7 +28,7 @@ const Home = ({ title }) => {
 									participants. Weather it be formal or informal events. We got
 									you covered.
 								</p>
-								<button size="lg" className="button w-full sm:w-fit">
+								<button className="text-white max-w-max bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-xl px-5 py-4  dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
 									<Link to="#events">Explore Now</Link>
 								</button>
 							</div>

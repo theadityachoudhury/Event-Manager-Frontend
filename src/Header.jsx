@@ -187,17 +187,17 @@ export default function Header({ isPublic }) {
 						{!authenticated && (
 							<Link
 								to="/login"
-								className="text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
+								className="text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
 								Login
 							</Link>
 						)}
-						{authenticated && (
+						{authenticated && user && (
 							<div className="flex justify-end gap-3 relative">
 								{/* Logout button */}
 								<button
 									onClick={handleDropdownToggle}
 									className="text-white bg-black hover:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-red-400 focus:outline-none relative">
-									Logout
+									{user.data.name.split(" ")[0]}
 									{/* Dropdown arrow */}
 									<span className="ml-2">&#9660;</span>
 								</button>

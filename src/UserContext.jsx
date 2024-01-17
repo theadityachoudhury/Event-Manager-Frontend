@@ -40,11 +40,18 @@ export function UserContextProvider({ children }) {
 
 	const refreshAccessToken = async () => {
 		try {
-			await axios.get("/api/auth/refresh");
+			const response = await axios.get("/api/auth/refresh");
+			Cookies.set("accessToken", response.data.token, {
+				secure: true,
+				sameSite: true,
+				expires: new Date(Date.now() + response.data.expiresIn * 1000),
+			});
+			Cookies.set("authenticated", "true", { expires: 7 }); // Set cookie to expire in 7 daysF
 			await fetchUser();
 		} catch (error) {
 			console.error(error);
 			setError("Failed to refresh access token");
+			logout();
 		}
 	};
 

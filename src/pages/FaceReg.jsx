@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { MoveLeft } from "lucide-react";
 
 const FaceReg = ({ title }) => {
+	const [isCameraStarted, setIsCameraStarted] = useState(false);
 	useEffect(() => {
 		// Update the document title when the component mounts
 		document.title = title + " | Evently";
@@ -14,6 +15,15 @@ const FaceReg = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
+
+	useEffect(() => {
+		return () => {
+			if (streamRef.current) {
+				const tracks = streamRef.current.getTracks();
+				tracks.forEach((track) => track.stop());
+			}
+		};
+	}, []);
 	const [params] = useSearchParams();
 	const callback = params.get("callback");
 	const [redirect, setRedirect] = useState(false);
@@ -23,17 +33,24 @@ const FaceReg = ({ title }) => {
 		account: "",
 		face: "",
 	});
+	const [cameraState, setCameraState] = useState("initial");
 
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [capturedImage, setCapturedImage] = useState(null);
+	const streamRef = useRef(null);
 
 	const startCamera = async () => {
+		videoRef.current.style.display = "block";
+
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream;
 			}
+			streamRef.current = stream;
+			setCameraState("started");
+			setIsCameraStarted(true);
 		} catch (error) {
 			console.error("Error accessing camera:", error);
 		}
@@ -50,15 +67,30 @@ const FaceReg = ({ title }) => {
 				.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 			const image = canvas.toDataURL("image/png");
 			setCapturedImage(image);
+			stopCamera();
+			setCameraState("captured");
 		}
 	};
 
 	const stopCamera = () => {
-		if (videoRef.current) {
+		if (videoRef.current && videoRef.current.srcObject) {
 			const stream = videoRef.current.srcObject;
 			const tracks = stream.getTracks();
 			tracks.forEach((track) => track.stop());
+
+			// Set the video element to null or hide it
+			videoRef.current.srcObject = null;
+			setCameraState("initial");
 		}
+		setIsCameraStarted(false);
+	};
+
+	const recaptureImage = () => {
+		// Clear the previously captured image
+		setCapturedImage(null);
+
+		// Update camera state to "started"
+		startCamera();
 	};
 
 	const handleSubmit = async (e) => {
@@ -204,17 +236,17 @@ const FaceReg = ({ title }) => {
 									)}
 								</div>
 
-								<div className="w-fit">
+								<div className="">
 									<label
 										htmlFor="face"
 										className="block text-sm font-medium leading-6 text-gray-900">
 										Face
 									</label>
-									<div className="mt-2">
-										<div className="block w-full rounded-md border-0 py-2.5 px-5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6">
+									<div className="md:rounded-md md:border md:border-gray-300 md:shadow-md mx-auto">
+										<div>
 											<div>
 												<video ref={videoRef} autoPlay playsInline />
-												<div>
+												{/* <div className="mt-2 flex flex-wrap justify-center gap-2">
 													<button
 														className="mr-2 justify-center rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focu s-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-2"
 														onClick={startCamera}>
@@ -230,12 +262,49 @@ const FaceReg = ({ title }) => {
 														onClick={stopCamera}>
 														Stop Camera
 													</button>
+												</div> */}
+
+												{capturedImage && (
+													<img src={capturedImage} alt="Captured" />
+												)}
+												<canvas ref={canvasRef} style={{ display: "none" }} />
+
+												<div className="flex flex-wrap justify-center gap-2 m-2">
+													{cameraState === "initial" && (
+														<button
+															className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+															onClick={startCamera}>
+															Start Camera
+														</button>
+													)}
+
+													{cameraState === "started" && (
+														<>
+															<button
+																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+																onClick={captureImage}>
+																Capture Image
+															</button>
+															<button
+																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+																onClick={stopCamera}>
+																Stop Camera
+															</button>
+														</>
+													)}
+
+													{cameraState === "captured" && (
+														<>
+															<button
+																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+																onClick={recaptureImage}>
+																Recapture
+															</button>
+															{/* Add logic to handle the captured image */}
+														</>
+													)}
 												</div>
 											</div>
-											{capturedImage && (
-												<img src={capturedImage} alt="Captured" />
-											)}
-											<canvas ref={canvasRef} style={{ display: "none" }} />
 										</div>
 									</div>
 									{formError.face && (

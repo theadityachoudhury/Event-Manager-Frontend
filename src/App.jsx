@@ -14,6 +14,7 @@ import Header from "./Header";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import FaceReg from "./pages/FaceReg";
+
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
 		? "https://backend.evently.adityachoudhury.com"
@@ -38,6 +39,7 @@ function App() {
 					<Route path="/forget" element={<Forget title="Forget Password" />} />
 					<Route path="/about" element={<About title="About" />} />
 					<Route path="/contact" element={<Contact title="Contact" />} />
+
 					<Route index element={<Home title="Home" />} />
 				</Route>
 			</Routes>
