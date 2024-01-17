@@ -49,13 +49,19 @@ const FaceReg = ({ title }) => {
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream;
 				await faceapi.nets.tinyFaceDetector.loadFromUri(
-					"https://backend.evently.adityachoudhury.com/"
+					(window.location.hostname === "evently.adityachoudhury.com"
+						? "https://backend.evently.adityachoudhury.com"
+						: "http://localhost:5000") + "/public/models"
 				);
 				await faceapi.nets.faceLandmark68Net.loadFromUri(
-					"https://backend.evently.adityachoudhury.com/"
+					(window.location.hostname === "evently.adityachoudhury.com"
+						? "https://backend.evently.adityachoudhury.com"
+						: "http://localhost:5000") + "/public/models"
 				);
 				await faceapi.nets.faceRecognitionNet.loadFromUri(
-					"https://backend.evently.adityachoudhury.com/"
+					(window.location.hostname === "evently.adityachoudhury.com"
+						? "https://backend.evently.adityachoudhury.com"
+						: "http://localhost:5000") + "/public/models"
 				);
 
 				const video = videoRef.current;
