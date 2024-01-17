@@ -48,9 +48,15 @@ const FaceReg = ({ title }) => {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream;
-				await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
-				await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
-				await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+				await faceapi.nets.tinyFaceDetector.loadFromUri(
+					"https://backend.evently.adityachoudhury.com/"
+				);
+				await faceapi.nets.faceLandmark68Net.loadFromUri(
+					"https://backend.evently.adityachoudhury.com/"
+				);
+				await faceapi.nets.faceRecognitionNet.loadFromUri(
+					"https://backend.evently.adityachoudhury.com/"
+				);
 
 				const video = videoRef.current;
 				const canvas = canvasRef.current;
