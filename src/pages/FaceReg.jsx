@@ -18,6 +18,36 @@ const FaceReg = ({ title }) => {
 	}, [title]);
 
 	useEffect(() => {
+		// Load face detection models when the component mounts
+		const loadModels = async () => {
+			await faceapi.nets.tinyFaceDetector.loadFromUri(
+				(window.location.hostname === "evently.adityachoudhury.com"
+					? "https://backend.evently.adityachoudhury.com"
+					: "http://localhost:5000") + "/public/models"
+			);
+			await faceapi.nets.faceLandmark68Net.loadFromUri(
+				(window.location.hostname === "evently.adityachoudhury.com"
+					? "https://backend.evently.adityachoudhury.com"
+					: "http://localhost:5000") + "/public/models"
+			);
+			await faceapi.nets.faceRecognitionNet.loadFromUri(
+				(window.location.hostname === "evently.adityachoudhury.com"
+					? "https://backend.evently.adityachoudhury.com"
+					: "http://localhost:5000") + "/public/models"
+			);
+		};
+
+		loadModels(); // Call the function to load models
+
+		// Clean up function
+		return () => {
+			// Perform cleanup when the component is unmounted
+			// For example, you can stop the camera and clear resources
+			stopCamera();
+		};
+	}, []);
+
+	useEffect(() => {
 		return () => {
 			if (streamRef.current) {
 				const tracks = streamRef.current.getTracks();
@@ -48,21 +78,21 @@ const FaceReg = ({ title }) => {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream;
-				await faceapi.nets.tinyFaceDetector.loadFromUri(
-					(window.location.hostname === "evently.adityachoudhury.com"
-						? "https://backend.evently.adityachoudhury.com"
-						: "http://localhost:5000") + "/public/models"
-				);
-				await faceapi.nets.faceLandmark68Net.loadFromUri(
-					(window.location.hostname === "evently.adityachoudhury.com"
-						? "https://backend.evently.adityachoudhury.com"
-						: "http://localhost:5000") + "/public/models"
-				);
-				await faceapi.nets.faceRecognitionNet.loadFromUri(
-					(window.location.hostname === "evently.adityachoudhury.com"
-						? "https://backend.evently.adityachoudhury.com"
-						: "http://localhost:5000") + "/public/models"
-				);
+				// await faceapi.nets.tinyFaceDetector.loadFromUri(
+				// 	(window.location.hostname === "evently.adityachoudhury.com"
+				// 		? "https://backend.evently.adityachoudhury.com"
+				// 		: "http://localhost:5000") + "/public/models"
+				// );
+				// await faceapi.nets.faceLandmark68Net.loadFromUri(
+				// 	(window.location.hostname === "evently.adityachoudhury.com"
+				// 		? "https://backend.evently.adityachoudhury.com"
+				// 		: "http://localhost:5000") + "/public/models"
+				// );
+				// await faceapi.nets.faceRecognitionNet.loadFromUri(
+				// 	(window.location.hostname === "evently.adityachoudhury.com"
+				// 		? "https://backend.evently.adityachoudhury.com"
+				// 		: "http://localhost:5000") + "/public/models"
+				// );
 
 				const video = videoRef.current;
 				const canvas = canvasRef.current;
