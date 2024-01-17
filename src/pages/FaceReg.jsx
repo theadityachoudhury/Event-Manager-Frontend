@@ -3,6 +3,7 @@ import { useUserContext } from "../UserContext";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { MoveLeft } from "lucide-react";
+import * as faceapi from "face-api.js";
 
 const FaceReg = ({ title }) => {
 	const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -47,10 +48,31 @@ const FaceReg = ({ title }) => {
 			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 			if (videoRef.current) {
 				videoRef.current.srcObject = stream;
+				await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+				await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+				await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+
+				const video = videoRef.current;
+				const canvas = canvasRef.current;
+				const displaySize = { width: video.width, height: video.height };
+				faceapi.matchDimensions(canvas, displaySize);
+				canvas.getContext("2d").imageSmoothingQuality = "high";
+				setInterval(async () => {
+					const detections = await faceapi
+						.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+						.withFaceLandmarks()
+						.withFaceDescriptors();
+					console.log("Number of faces detected:", detections.length);
+
+					if (detections.length > 1) {
+						console.log("More than 1 face detected!");
+					}
+				}, 1000); // You can adjust the interval based on your preference
+
+				streamRef.current = stream;
+				setCameraState("started");
+				setIsCameraStarted(true);
 			}
-			streamRef.current = stream;
-			setCameraState("started");
-			setIsCameraStarted(true);
 		} catch (error) {
 			console.error("Error accessing camera:", error);
 		}
