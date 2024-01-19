@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserContext } from "../UserContext";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { MoveLeft } from "lucide-react";
 import * as faceapi from "face-api.js";
+import axios from "axios";
 
 const FaceReg = ({ title }) => {
 	const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -166,9 +167,64 @@ const FaceReg = ({ title }) => {
 		startCamera();
 	};
 
+	function base64ToBinary(base64String) {
+		const base64Data = base64String.split(",")[1];
+		const binaryData = atob(base64Data);
+
+		// Now, convert the binary data to a Uint8Array
+		const arrayBuffer = new Uint8Array(binaryData.length);
+		for (let i = 0; i < binaryData.length; i++) {
+			arrayBuffer[i] = binaryData.charCodeAt(i);
+		}
+		return arrayBuffer;
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const key = `${user.data._id}/face.png`;
+		const type = "image/png";
+
+		let config = {
+			method: "post",
+			maxBodyLength: Infinity,
+			url: "/api/auth/face-add",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: {
+				key: key,
+				type: type,
+			},
+		};
+
+		try {
+			const { data } = await axios.request(config);
+			try {
+				config = {
+					method: "put",
+					maxBodyLength: Infinity,
+					url: data,
+					headers: {
+						"Content-Type": "image/png",
+					},
+					responseType: "arraybuffer",
+					data: base64ToBinary(capturedImage),
+				};
+
+				const res = await axios.request(config);
+				toast.success("Successfully uploaded the image!");
+
+				axios.get("/api/auth/face-verified");
+			} catch (err) {
+				toast.error("Error uploading the image!!");
+				console.log("unable to upload file");
+			}
+		} catch (err) {
+			toast.error("Error getting presigned URL!! Please try again later!!");
+			console.log("unable to get signed url");
+		}
 	};
+
 	if (!ready) {
 		return <Loader title="Loading" />;
 	}
@@ -278,9 +334,11 @@ const FaceReg = ({ title }) => {
 											<div>
 												<p className="font-bold">
 													Face Detection Status:{" "}
-													{!formError.face ? face
-														? "Detected"
-														: "Not Detected" :"Multiple Faces Detected"}
+													{!formError.face
+														? face
+															? "Detected"
+															: "Not Detected"
+														: "Multiple Faces Detected"}
 												</p>
 												<p className="text-sm">
 													Please contact{" "}
@@ -357,7 +415,10 @@ const FaceReg = ({ title }) => {
 													{cameraState === "initial" && (
 														<button
 															className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-															onClick={startCamera}>
+															onClick={(e) => {
+																e.preventDefault(); // Add this line to prevent form submission
+																startCamera();
+															}}>
 															Start Camera
 														</button>
 													)}
@@ -366,13 +427,19 @@ const FaceReg = ({ title }) => {
 														<>
 															<button
 																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-slate-500 disabled:text-white"
-																onClick={captureImage}
+																onClick={(e) => {
+																	e.preventDefault(); // Add this line to prevent form submission
+																	captureImage();
+																}}
 																disabled={!face}>
 																Capture Image
 															</button>
 															<button
 																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-																onClick={stopCamera}>
+																onClick={(e) => {
+																	e.preventDefault(); // Add this line to prevent form submission
+																	stopCamera();
+																}}>
 																Stop Camera
 															</button>
 														</>
@@ -382,7 +449,11 @@ const FaceReg = ({ title }) => {
 														<>
 															<button
 																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-																onClick={recaptureImage}>
+																onClick={(e) => {
+																	e.preventDefault(); // Add this line to prevent form submission
+																	recaptureImage();
+																}}
+																type="button">
 																Recapture
 															</button>
 															{/* Add logic to handle the captured image */}
