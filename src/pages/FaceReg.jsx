@@ -59,6 +59,7 @@ const FaceReg = ({ title }) => {
 	const callback = params.get("callback");
 	const [redirect, setRedirect] = useState(false);
 	const { user, authenticated, ready } = useUserContext();
+	const [face, setFace] = useState(false);
 	const [formError, setFormError] = useState({
 		email: "",
 		account: "",
@@ -108,6 +109,14 @@ const FaceReg = ({ title }) => {
 
 					if (detections.length > 1) {
 						console.log("More than 1 face detected!");
+						setFormError({ ...formError, face: "More than 1 face detected!" });
+						setFace(false);
+					}
+					if (detections.length == 1) {
+						setFace(true);
+						setFormError({ ...formError, face: "" });
+					} else {
+						setFace(false);
 					}
 				}, 1000); // You can adjust the interval based on your preference
 
@@ -247,12 +256,20 @@ const FaceReg = ({ title }) => {
 							{!formError.account && (
 								<div className="mb-3">
 									<div
-										className="rounded-b border-t-4 border-teal-500 bg-teal-100 px-4 py-2 text-teal-900 shadow-md"
+										className={
+											face
+												? "rounded-b border-t-4 border-teal-500 bg-teal-100 px-4 py-2 text-teal-900 shadow-md"
+												: "rounded-b border-t-4 border-red-500 bg-red-100 px-4 py-3 text-red-900 shadow-md"
+										}
 										role="alert">
 										<div className="flex">
 											<div className="py-1">
 												<svg
-													className="mr-4 h-6 w-6 fill-current text-teal-500"
+													className={
+														face
+															? "mr-4 h-6 w-6 fill-current text-teal-500"
+															: "mr-4 h-6 w-6 fill-current text-red-500"
+													}
 													xmlns="http://www.w3.org/2000/svg"
 													viewBox="0 0 20 20">
 													<path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
@@ -260,7 +277,10 @@ const FaceReg = ({ title }) => {
 											</div>
 											<div>
 												<p className="font-bold">
-													Our systems are still in beta!
+													Face Detection Status:{" "}
+													{!formError.face ? face
+														? "Detected"
+														: "Not Detected" :"Multiple Faces Detected"}
 												</p>
 												<p className="text-sm">
 													Please contact{" "}
@@ -345,8 +365,9 @@ const FaceReg = ({ title }) => {
 													{cameraState === "started" && (
 														<>
 															<button
-																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-																onClick={captureImage}>
+																className="rounded-md bg-indigo-600 px-2 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-slate-500 disabled:text-white"
+																onClick={captureImage}
+																disabled={!face}>
 																Capture Image
 															</button>
 															<button
@@ -379,7 +400,8 @@ const FaceReg = ({ title }) => {
 								<div>
 									<button
 										type="submit"
-										className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focu s-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+										className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focu s-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+										disabled={!capturedImage}>
 										Register Face
 									</button>
 								</div>
