@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { MoveLeft } from "lucide-react";
 import * as faceapi from "face-api.js";
 import axios from "axios";
+import delay from "./components/delay";
 
 const FaceReg = ({ title }) => {
 	const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -59,7 +60,7 @@ const FaceReg = ({ title }) => {
 	const [params] = useSearchParams();
 	const callback = params.get("callback");
 	const [redirect, setRedirect] = useState(false);
-	const { user, authenticated, ready } = useUserContext();
+	const { user, authenticated, ready, setUser, verify } = useUserContext();
 	const [face, setFace] = useState(false);
 	const [formError, setFormError] = useState({
 		email: "",
@@ -214,8 +215,15 @@ const FaceReg = ({ title }) => {
 				const res = await axios.request(config);
 				toast.success("Successfully uploaded the image!");
 
-				axios.get("/api/auth/face-verified");
+				await axios.get("/api/auth/face-verified");
+				toast.success("Successfully verified the face!!");
+				console.log(user);
+				await verify();
+				setUser({ ...user, face: true });
+				await delay(4000);
+				setRedirect(true);
 			} catch (err) {
+				console.log(err);
 				toast.error("Error uploading the image!!");
 				console.log("unable to upload file");
 			}

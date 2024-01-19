@@ -105,7 +105,6 @@ export function UserContextProvider({ children }) {
 	};
 	const verify = () => {
 		setUser({ ...user, verified: true });
-		console.log("verify called");
 		fetchUser();
 	};
 
