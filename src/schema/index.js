@@ -25,3 +25,9 @@ export const ResetSchema = Yup.object({
     password: Yup.string().matches(/^[a-zA-Z0-9!@#$%^&*()_]{3,30}$/, 'Invalid password format').min(8, 'Password must be at least 8 characters').required('Password is required'),
     cpassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
 });
+
+export const ContactSchema = Yup.object({
+    email: Yup.string().email('Invalid email format').required('Email is required'),
+    name: Yup.string().min(1, 'Name is mandatory').required('Name is required'),
+    message: Yup.string().min(30, 'Message length should be atleast 30').required('Message is required')
+});

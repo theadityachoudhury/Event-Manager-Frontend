@@ -169,6 +169,9 @@ export default function Header({ isPublic }) {
 	return (
 		<>
 			<header className="w-full border-b">
+				<div className="">
+					<Toaster position="bottom-right" reverseOrder={true} />
+				</div>
 				<div className="wrapper flex items-center justify-between">
 					<Link href="/" className="w-36">
 						<img
