@@ -67,7 +67,18 @@ const Contact = ({ title }) => {
 	}
 
 	if (authenticated && ready && user && user.data.role === "admin") {
-		return <ContactLogs />;
+		const isSmallScreen = window.innerWidth <= 768;
+		return (
+			<>
+				{isSmallScreen ? (
+					<div className="flex h-screen text-4xl text-center">
+						<p className="my-auto">Webpage not supported in small screen devices</p>
+					</div>
+				) : (
+					<ContactLogs />
+				)}
+			</>
+		);
 	} else {
 		return (
 			<>
