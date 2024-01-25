@@ -20,6 +20,7 @@ const About = ({ title }) => {
 				}}>
 				<main style={{ flex: 1 }}>
 					<section
+						
 						style={{
 							padding: "2rem",
 							display: "flex",
@@ -28,23 +29,19 @@ const About = ({ title }) => {
 							justifyContent: "center",
 						}}>
 						<div
+							
 							style={{
-								maxWidth: "800px",
+								maxWidth: "900px",
 								textAlign: "center",
 							}}>
 							<h1
-								style={{
-									fontSize: "2.5rem",
-									fontWeight: "bold",
-									marginBottom: "1rem",
-								}}>
-								Welcome to Evently - Your Ultimate Event Management Solution!
+								className="text-3xl md:text-5xl font-semibold md:font-bold md:my-10 md:text-nowrap indent-"
+								>
+								 Spark Your Event's Story with Evently! ✨
 							</h1>
 							<p
-								style={{
-									fontSize: "1.6rem",
-									margin: "2rem 0",
-								}}>
+								className="md:text-2xl text-lg font-medium my-8"
+								>
 								Evently is not just another event management platform; it's a
 								comprehensive SaaS product designed to make your events truly
 								unforgettable. Whether it's a grand wedding celebration or a
@@ -52,12 +49,8 @@ const About = ({ title }) => {
 								features:
 							</p>
 							<ul
-								style={{
-									fontSize: "1.4rem",
-									textAlign: "left",
-									paddingLeft: "1.5rem",
-									marginBottom: "1rem",
-								}}>
+								className="md:text-xl text-md space-y-2"
+								>
 								<li>
 									<strong>Automatic Event Image Distribution:</strong> Every
 									attendee receives their event photos!
@@ -82,13 +75,16 @@ const About = ({ title }) => {
 							<p
 								style={{
 									fontSize: "1.2rem", // Adjusted font size for smaller devices
-									marginTop: "0.5rem",
+									marginTop: "2rem",
 								}}>
 								Join Evently today and experience seamless event planning and
 								management. Create memorable moments without the stress, because
 								with Evently, your events are in good hands!
 							</p>
 						</div>
+						<button className="mt-10 text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-md md:text-xl px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none transition ease-in-out duration-300">
+							Join Now
+						</button>
 					</section>
 				</main>
 			</div>

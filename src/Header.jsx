@@ -190,7 +190,7 @@ export default function Header({ isPublic }) {
 						{!authenticated && (
 							<Link
 								to="/login"
-								className="text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
+								className="text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none transition ease-in-out duration-300">
 								Login
 							</Link>
 						)}
