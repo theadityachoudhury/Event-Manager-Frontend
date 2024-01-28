@@ -50,6 +50,11 @@ const Contact = ({ title }) => {
 				await axios.request(config);
 				toast.success("Successfully Submitted the Ticket!!");
 				setRequest(false);
+				setFormData({
+					email: user?.data?.email || "",
+					name: user?.data?.name || "",
+					message: "",
+				});
 			} catch (error) {
 				setRequest(false);
 				const fieldErrors = {};
@@ -58,6 +63,8 @@ const Contact = ({ title }) => {
 						fieldErrors[err.path] = err.message;
 					});
 					setFormError(fieldErrors);
+				} else {
+					toast.error("Something went wrong!!");
 				}
 			}
 		});
@@ -72,7 +79,9 @@ const Contact = ({ title }) => {
 			<>
 				{isSmallScreen ? (
 					<div className="flex h-screen text-4xl text-center">
-						<p className="my-auto">Webpage not supported in small screen devices</p>
+						<p className="my-auto">
+							Webpage not supported in small screen devices
+						</p>
 					</div>
 				) : (
 					<ContactLogs />

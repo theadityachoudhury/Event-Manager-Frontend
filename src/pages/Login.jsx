@@ -45,7 +45,6 @@ const Login = ({ title }) => {
 		startTransition(async () => {
 			try {
 				LoginSchema.validateSync(formData, { abortEarly: false });
-				console.log("validation success!!!");
 				let config = {
 					method: "post",
 					maxBodyLength: Infinity,

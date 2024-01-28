@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../Loader";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const ContactLogs = () => {
 	const [contactData, setContactData] = useState([]);
@@ -48,9 +49,9 @@ const ContactLogs = () => {
 							</h1>
 							<p className="text-4xl">Admin View</p>
 
-							<div className="overflow-hidden">
+							<div className="">
 								<div
-									className="relative overflow-x-auto mt-5 table-scroll"
+									className="relative mt-5"
 									style={{ maxHeight: "650px" }}>
 									<table className="border-spacing-2 w-full text-sm text-left rtl:text-right text-gray-500">
 										<thead className="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0">
@@ -72,12 +73,16 @@ const ContactLogs = () => {
 
 										<tbody>
 											{contactData.length == 0 ? (
-												<tr
-													aria-colspan={3}
-													aria-rowspan={3}
-													className="text-center justify-center m-2">
-													No Data Found
-												</tr>
+												isLoading ? (
+													"Loading...."
+												) : (
+													<tr
+														aria-colspan={3}
+														aria-rowspan={3}
+														className="text-center justify-center m-2">
+														No Data Found
+													</tr>
+												)
 											) : (
 												contactData.map((contact) => (
 													<tr key={contact._id} className="bg-white">
@@ -86,7 +91,14 @@ const ContactLogs = () => {
 														</td>
 														<td className="px-6 py-4">{contact.name}</td>
 														<td className="px-6 py-4">{contact.message}</td>
-														<td className="flex flex-row gap-2 px-6 py-4"><button className="bg-indigo-600 rounded-md py-2 px-3 text-white hover:bg-indigo-700">Reply</button><button className="bg-red-600 rounded-md py-2 px-3 text-white hover:bg-red-500">Delete</button></td>
+														<td className="flex flex-row gap-2 px-6 py-4">
+															<button className="bg-indigo-600 rounded-md py-2 px-3 text-white hover:bg-indigo-700">
+																Reply
+															</button>
+															<button className="bg-red-600 rounded-md py-2 px-3 text-white hover:bg-red-500">
+																Delete
+															</button>
+														</td>
 													</tr>
 												))
 											)}

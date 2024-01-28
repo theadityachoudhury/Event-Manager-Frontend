@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Success = ({ title }) => {
+const Success = ({ title,data }) => {
 	useEffect(() => {
 		// Update the document title when the component mounts
 		document.title = title + " | Evently";

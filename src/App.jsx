@@ -14,6 +14,7 @@ import Header from "./Header";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import FaceReg from "./pages/FaceReg";
+import ResetPassword from "./pages/ResetPassword";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -37,6 +38,7 @@ function App() {
 					<Route path="/success" element={<Success title="Success" />} />
 					<Route path="/register" element={<Register title="Register" />} />
 					<Route path="/forget" element={<Forget title="Forget Password" />} />
+					<Route path="/forget/:otp" element={<ResetPassword title="Reset Password" />} />
 					<Route path="/about" element={<About title="About" />} />
 					<Route path="/contact" element={<Contact title="Contact" />} />
 

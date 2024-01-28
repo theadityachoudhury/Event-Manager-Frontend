@@ -1,8 +1,9 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState, useTransition } from "react";
 import { AlertCircle, MoveLeft } from "lucide-react";
 import { ForgetSchema } from "../schema";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Forget = ({ title }) => {
 	useEffect(() => {
@@ -19,23 +20,80 @@ const Forget = ({ title }) => {
 		email: "",
 		account: "",
 	});
+	const [pending, startTransition] = useTransition();
+	const [request, setRequest] = useState(false);
 	const [formData, setFormData] = useState({
 		email: "",
 	});
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			ForgetSchema.validateSync(formData, { abortEarly: false });
-			console.log("Form data is valid:", formData);
-		} catch (error) {
-			const fieldErrors = {};
-			if (error.inner) {
-				error.inner.forEach((err) => {
-					fieldErrors[err.path] = err.message;
+		setFormError({ ...formError, account: "" });
+		setRequest(true);
+		startTransition(async () => {
+			try {
+				ForgetSchema.validateSync(formData, { abortEarly: false });
+				let config = {
+					method: "post",
+					maxBodyLength: Infinity,
+					url: "/api/auth/forget",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					data: formData,
+				};
+				const response = await axios.request(config);
+				setFormData({ email: "" });
+				setRequest(false);
+				toast.success("Password Reset Link Sent Successfully", {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#1ccb5b",
+					},
+					iconTheme: {
+						primary: "#1ccb5b",
+						secondary: "#FFFAEE",
+					},
 				});
-				setFormError(fieldErrors);
+			} catch (error) {
+				setRequest(false);
+				const fieldErrors = {};
+				if (error.inner) {
+					error.inner.forEach((err) => {
+						fieldErrors[err.path] = err.message;
+					});
+					setFormError(fieldErrors);
+				}
+
+				if (axios.isAxiosError(error)) {
+					if (error?.response?.status == 404) {
+						setFormError({
+							...formError,
+							account:
+								"Unable to find an account connected to this Email-Id!! Please Signup!!",
+						});
+					} else if (error?.response?.status == 500)
+						setFormError({
+							...formError,
+							account: `Internal server error!${error.response.data.message}. Please try again later!`,
+						});
+					else if (error?.message === "Network Error") {
+						console.log("Unable to contact servers! Please try again later");
+						toast.error("Unable to contact servers! Please try again later", {
+							style: {
+								border: "1px solid",
+								padding: "16px",
+								color: "#fa776c",
+							},
+							iconTheme: {
+								primary: "#fa776c",
+								secondary: "#FFFAEE",
+							},
+						});
+					}
+				}
 			}
-		}
+		});
 	};
 	return (
 		<>
