@@ -59,6 +59,6 @@
 	"description": "Easily manage your events and access your pictures at your finger tips!!",
 	"theme_color": "#000000",
 	"background_color": "#FFFFFF",
-	"display": "fullscreen",
-	"orientation": "portrait"
+	"display": "standalon",
+	"orientation": "any"
 }
