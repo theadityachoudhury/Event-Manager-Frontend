@@ -8,6 +8,7 @@ const EventsCard = ({ data }) => {
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState([]);
 	useEffect(() => {
+		setLoading(true);
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
