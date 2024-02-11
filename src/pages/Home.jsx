@@ -29,7 +29,7 @@ const Home = ({ title }) => {
 									you covered.
 								</p>
 								<button className="text-white max-w-max bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-xl px-5 py-4  dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
-									<Link to="#events">Explore Now</Link>
+									<Link to="/events">Explore Now</Link>
 								</button>
 							</div>
 

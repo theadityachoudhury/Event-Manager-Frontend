@@ -58,7 +58,7 @@ function App() {
 						element={<ResetPassword title="Reset Password" />}
 					/>
 					<Route path="/about" element={<About title="About" />} />
-					<Route path="/events" element={<Events title="Events" />} />
+					<Route path="/explore" element={<Events title="Events" />} />
 					<Route path="/contact" element={<Contact title="Contact" />} />
 
 					<Route index element={<Home title="Home" />} />
