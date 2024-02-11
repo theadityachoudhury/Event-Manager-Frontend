@@ -6,6 +6,7 @@ import Loader from "./pages/components/Loader.jsx";
 import { useUserContext } from "./UserContext.jsx";
 import NavItems from "./pages/components/NavItems.jsx";
 import { useState } from "react";
+import InstallAppButton from "./pages/PWA/Install.jsx";
 
 export default function Header({ isPublic }) {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -200,7 +201,6 @@ export default function Header({ isPublic }) {
 								<button
 									onClick={handleDropdownToggle}
 									className="text-white bg-black hover:bg-red-400 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-black dark:hover:bg-red-400 focus:outline-none relative">
-									
 									{user.data.name.split(" ")[0]}
 									{/* Dropdown arrow */}
 									<span className="ml-2">&#9660;</span>
@@ -232,6 +232,7 @@ export default function Header({ isPublic }) {
 				</div>
 			</header>
 			{isPublic && <Outlet />}
+			<InstallAppButton />
 		</>
 	);
 }

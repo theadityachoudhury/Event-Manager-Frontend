@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EventsCard from "./EventsCard";
+import { useSearchParams } from "react-router-dom";
 
 const Events = ({ title }) => {
 	useEffect(() => {
@@ -11,10 +12,11 @@ const Events = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
-	const [searchData, setSearchData] = useState("");
-	const [prop, setProp] = useState("");
+	const [params, setParams] = useSearchParams()
+	const [searchData, setSearchData] = useState(params.get("query")||"");
+	const [prop, setProp] = useState(params.get("query")||"");
 	const handleSearchSubmit = async (e) => {
-		e.preventDefault();
+		// e.preventDefault();
 		setProp(searchData);
 	};
 	return (
@@ -26,8 +28,8 @@ const Events = ({ title }) => {
 				<form onSubmit={handleSearchSubmit} className="flex gap-3">
 					<input
 						type="text"
-						name="search-item"
-						id="search-item"
+						name="query"
+						id="query"
 						value={searchData}
 						onChange={(e) => {
 							setSearchData(e.target.value);
