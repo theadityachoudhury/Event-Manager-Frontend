@@ -31,3 +31,21 @@ export const ContactSchema = Yup.object({
     name: Yup.string().min(1, 'Name is mandatory').required('Name is required'),
     message: Yup.string().min(30, 'Message length should be atleast 30').required('Message is required')
 });
+
+export const eventsSchema = Yup.object().shape({
+    eventName: Yup.string().required(),
+    eventDescription: Yup.string().required(),
+    eventCategory: Yup.string().required(),
+    eventLocation: Yup.string().required(),
+    eventStartDate: Yup.date().required(),
+    eventEndDate: Yup.date().required(),
+    eventURL: Yup.string().default('').nullable(), // Allow empty string for optional field
+    eventImageUploaded: Yup.boolean(),
+    eventOwner: Yup.string().required(),
+    ownerId: Yup.string().required(), // Assuming ObjectId is stored as a string
+    price: Yup.number().required(),
+    free: Yup.boolean().required(),
+    eventType: Yup.string().oneOf(['open', 'closed']).required(), // Enforce enum values
+    eventParticipationLimit: Yup.number().required().default(100),
+    eventAttendanceRequired: Yup.boolean().required().default(false),
+});

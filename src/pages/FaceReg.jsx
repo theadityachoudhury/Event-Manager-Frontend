@@ -182,7 +182,7 @@ const FaceReg = ({ title }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const key = `${user.data._id}/face.png`;
+		const key = `${user.data._id}.png`;
 		const type = "image/png";
 
 		let config = {

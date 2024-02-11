@@ -28,7 +28,6 @@ export function UserContextProvider({ children }) {
 			} else {
 				setUser({ ...response.data });
 			}
-
 			setError(null);
 		} catch (error) {
 			console.error(error);

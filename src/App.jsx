@@ -15,6 +15,11 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import FaceReg from "./pages/FaceReg";
 import ResetPassword from "./pages/ResetPassword";
+import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
+import Events from "./pages/Events/Events";
+import Create from "./pages/Events/Create";
+import RegisterEvent from "./pages/Events/Register";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -30,6 +35,16 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="/dashboard" element={<Dashboard title="Dashboard" />} />
+					<Route path="/settings" element={<Settings title="Settings" />} />
+					<Route path="/profile" element={<Profile title="Settings" />} />
+					<Route
+						path="/events/create"
+						element={<Create title="Create Events" />}
+					/>
+					<Route
+						path="/events/register/:id?"
+						element={<RegisterEvent title="Register Event" />}
+					/>
 				</Route>
 				<Route path="/" element={<Header isPublic={true} />}>
 					<Route path="/login" element={<Login title="Login" />} />
@@ -38,8 +53,12 @@ function App() {
 					<Route path="/success" element={<Success title="Success" />} />
 					<Route path="/register" element={<Register title="Register" />} />
 					<Route path="/forget" element={<Forget title="Forget Password" />} />
-					<Route path="/forget/:otp" element={<ResetPassword title="Reset Password" />} />
+					<Route
+						path="/forget/:otp"
+						element={<ResetPassword title="Reset Password" />}
+					/>
 					<Route path="/about" element={<About title="About" />} />
+					<Route path="/events" element={<Events title="Events" />} />
 					<Route path="/contact" element={<Contact title="Contact" />} />
 
 					<Route index element={<Home title="Home" />} />
