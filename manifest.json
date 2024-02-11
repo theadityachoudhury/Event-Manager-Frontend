@@ -38,9 +38,21 @@
 		},
 		{
 			"src": "/assets/ss/02.png",
-			"sizes": "1920x912",
+			"sizes": "1920x910",
 			"type": "image/png",
 			"form_factor": "wide",
+			"label": "Wonder Widgets"
+		},
+		{
+			"src": "/assets/ss/mob-01.jpg",
+			"sizes": "540x1204",
+			"type": "image/jpg",
+			"label": "Wonder Widgets"
+		},
+		{
+			"src": "/assets/ss/mob-01.jpg",
+			"sizes": "540x1204",
+			"type": "image/jpg",
 			"label": "Wonder Widgets"
 		}
 	],
