@@ -4,14 +4,14 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-const EventsCard = () => {
+const EventsCard = ({ data }) => {
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState([]);
 	useEffect(() => {
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
-			url: "/api/event",
+			url: `/api/event?query=${data}`,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -27,7 +27,7 @@ const EventsCard = () => {
 				// setLoading(false);
 				toast.error("Unabele to fetch data");
 			});
-	}, []);
+	}, [data]);
 	console.log(loading);
 	if (loading) {
 		return <Loader />;

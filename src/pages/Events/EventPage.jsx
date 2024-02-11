@@ -33,7 +33,6 @@ const EventPage = () => {
 			.catch((err) => {
 				setError(true);
 			});
-		
 	}, []);
 
 	if (iserror) {

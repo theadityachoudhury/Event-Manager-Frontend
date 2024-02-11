@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EventsCard from "./EventsCard";
 
 const Events = ({ title }) => {
@@ -11,7 +11,12 @@ const Events = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
-	const handleSearchSubmit = async () => {};
+	const [searchData, setSearchData] = useState("");
+	const [prop, setProp] = useState("");
+	const handleSearchSubmit = async (e) => {
+		e.preventDefault();
+		setProp(searchData);
+	};
 	return (
 		<div className="wrapper">
 			<div>
@@ -23,18 +28,24 @@ const Events = ({ title }) => {
 						type="text"
 						name="search-item"
 						id="search-item"
+						value={searchData}
+						onChange={(e) => {
+							setSearchData(e.target.value);
+						}}
 						autoComplete="off"
 						placeholder="Search Event Here"
 						className="w-full ring ring-black rounded-md p-3 px-5 focus:ring-slate-900"
 					/>
-					<button className="bg-black rounded-md p-3 text-white hover:bg-slate-800">
+					<button
+						type="submit"
+						className="bg-black rounded-md p-3 text-white hover:bg-slate-800">
 						Search
 					</button>
 				</form>
 			</div>
 
 			<div className="mt-5">
-				<EventsCard />
+				<EventsCard data={prop} />
 			</div>
 		</div>
 	);
