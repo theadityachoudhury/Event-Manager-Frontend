@@ -6,7 +6,6 @@ import Loader from "./pages/components/Loader.jsx";
 import { useUserContext } from "./UserContext.jsx";
 import NavItems from "./pages/components/NavItems.jsx";
 import { useState } from "react";
-import InstallAppButton from "./pages/PWA/Install.jsx";
 
 export default function Header({ isPublic }) {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -232,7 +231,6 @@ export default function Header({ isPublic }) {
 				</div>
 			</header>
 			{isPublic && <Outlet />}
-			<InstallAppButton />
 		</>
 	);
 }
