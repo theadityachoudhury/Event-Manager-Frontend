@@ -68,13 +68,13 @@ const EventsCard = () => {
 			<div>
 				<p className="font-bold">{eventData.results.length} Results Found</p>
 			</div>
-			<div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-5">
+			<div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
 				{eventData.results.map((data) => {
 					return (
 						<Link
 							key={data._id}
 							className="rounded-md mt-2 p-2"
-							to={`/events/${data._id}`}>
+							to={`/event/${data._id}`}>
 							<div key={data._id} className="w-fit sm:max-w-[300px]">
 								<div className="mt-5">
 									<img

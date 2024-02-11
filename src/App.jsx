@@ -19,7 +19,8 @@ import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Events from "./pages/Events/Events";
 import Create from "./pages/Events/Create";
-import RegisterEvent from "./pages/Events/Register";
+import EventPage from "./pages/Events/EventPage";
+import NotFound from "./pages/NotFound/NotFound";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -41,10 +42,6 @@ function App() {
 						path="/events/create"
 						element={<Create title="Create Events" />}
 					/>
-					<Route
-						path="/events/register/:id?"
-						element={<RegisterEvent title="Register Event" />}
-					/>
 				</Route>
 				<Route path="/" element={<Header isPublic={true} />}>
 					<Route path="/login" element={<Login title="Login" />} />
@@ -59,9 +56,14 @@ function App() {
 					/>
 					<Route path="/about" element={<About title="About" />} />
 					<Route path="/explore" element={<Events title="Events" />} />
+					<Route
+						path="/event/:id?"
+						element={<EventPage title="Register Event" />}
+					/>
 					<Route path="/contact" element={<Contact title="Contact" />} />
 
 					<Route index element={<Home title="Home" />} />
+					<Route path="*" element={<NotFound />} />
 				</Route>
 			</Routes>
 		</UserContextProvider>
