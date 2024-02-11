@@ -12,9 +12,9 @@ const Events = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
-	const [params, setParams] = useSearchParams()
-	const [searchData, setSearchData] = useState(params.get("query")||"");
-	const [prop, setProp] = useState(params.get("query")||"");
+	const [params, setParams] = useSearchParams();
+	const [searchData, setSearchData] = useState(params.get("query") || "");
+	const [prop, setProp] = useState(params.get("query") || "");
 	const handleSearchSubmit = async (e) => {
 		// e.preventDefault();
 		setProp(searchData);
