@@ -8,7 +8,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    ({ request }) => request.destination === 'script',
+    ({ request }) => request.destination === 'script' && request.url.startsWith(self.location.origin),
     new workbox.strategies.CacheFirst()
 );
 
