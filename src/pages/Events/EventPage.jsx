@@ -3,12 +3,14 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useUserContext } from "../../UserContext";
 
 const EventPage = () => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState({});
 	const [iserror, setError] = useState(false);
+	const { user, authenticated, ready } = useUserContext();
 	if (!id) {
 		return <Navigate to="/explore" />;
 	}
@@ -34,6 +36,9 @@ const EventPage = () => {
 				setError(true);
 			});
 	}, []);
+
+	const registerEvent = async () => {};
+	const payForEvent = async () => {};
 
 	if (iserror) {
 		return <Navigate to="/404" />;
@@ -84,20 +89,44 @@ const EventPage = () => {
 					</div>
 					<div>
 						<p className="mb-10">
-							{eventData?.eventDescription}. Lorem ipsum dolor sit amet,
+							{eventData.eventDescription}. Lorem ipsum dolor sit amet,
 							consectetur adipiscing elit. Nam congue nibh a malesuada viverra.
 							Nunc consequat augue quam, ut imperdiet nulla consequat a.
 							Suspendisse fermentum lectus mi, vitae vestibulum lacus aliquet
 							ac. Aliquam odio ex, maximus eget gravida ut, interdum ut tortor.
 						</p>
 					</div>
+					{!authenticated && ready && (
+						<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+							<Link
+								className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400"
+								to={`/login?callback=/event/${id}`}>
+								<button className="">Login To Continue</button>
+							</Link>
+						</div>
+					)}
 
-					<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-						<Link className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-							<button className="">Register Now</button>
-						</Link>
-					</div>
-
+					{authenticated && ready && user && (
+						<div>
+							{eventData.free === true || eventData.price == 0 ? (
+								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+									<button
+										onClick={registerEvent}
+										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+										Register Now
+									</button>
+								</div>
+							) : (
+								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+									<button
+										onClick={payForEvent}
+										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+										Pay ${eventData.price}/-
+									</button>
+								</div>
+							)}
+						</div>
+					)}
 					<div className="mt-2 font-medium">
 						<p className="mt-10">
 							Event Posted On:-{" "}

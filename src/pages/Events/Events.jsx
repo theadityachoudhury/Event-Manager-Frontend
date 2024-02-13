@@ -14,10 +14,14 @@ const Events = ({ title }) => {
 	}, [title]);
 	const [params, setParams] = useSearchParams();
 	const [searchData, setSearchData] = useState(params.get("query") || "");
-	const [prop, setProp] = useState(params.get("query") || "");
+	const [query, setQuery] = useState({
+		query: params.get("query") || "",
+		page: params.get("page") || 1,
+		perPage: params.get("perPage") || 10,
+	});
 	const handleSearchSubmit = async (e) => {
 		// e.preventDefault();
-		setProp(searchData);
+		setQuery(searchData);
 	};
 	return (
 		<div className="wrapper">
@@ -47,7 +51,11 @@ const Events = ({ title }) => {
 			</div>
 
 			<div className="mt-5">
-				<EventsCard data={prop} />
+				<EventsCard
+					data={query.query}
+					page={query.page}
+					perPage={query.perPage}
+				/>
 			</div>
 		</div>
 	);

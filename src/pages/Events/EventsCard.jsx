@@ -4,7 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-const EventsCard = ({ data }) => {
+const EventsCard = ({ data, page = 1, perPage = 10 }) => {
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState([]);
 	useEffect(() => {
@@ -12,7 +12,7 @@ const EventsCard = ({ data }) => {
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
-			url: `/api/event?query=${data}`,
+			url: `/api/event?query=${data}&perPage=${perPage}&page=${page}`,
 			headers: {
 				"Content-Type": "application/json",
 			},

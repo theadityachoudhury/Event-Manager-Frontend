@@ -7,15 +7,15 @@ workbox.routing.registerRoute(
     new workbox.strategies.CacheFirst()
 );
 
-workbox.routing.registerRoute(
-    ({ request }) => request.destination === 'script' && request.url.startsWith(self.location.origin),
-    new workbox.strategies.CacheFirst()
-);
+// workbox.routing.registerRoute(
+//     ({ request }) => request.destination === 'script' && request.url.startsWith(self.location.origin),
+//     new workbox.strategies.CacheFirst()
+// );
 
-workbox.routing.registerRoute(
-    ({ request }) => request.destination === 'document' && request.url.startsWith(self.location.origin),
-    new workbox.strategies.CacheFirst()
-);
+// workbox.routing.registerRoute(
+//     ({ request }) => request.destination === 'document' && request.url.startsWith(self.location.origin),
+//     new workbox.strategies.CacheFirst()
+// );
 
 workbox.routing.registerRoute(
     ({ request }) => request.destination === 'style',
