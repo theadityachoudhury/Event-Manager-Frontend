@@ -71,13 +71,12 @@ const EventPage = () => {
 				data: { amountToBePaid: eventData.price },
 			};
 
-			const { order_id, currency } = await axios.request(config);
-
+			const { data } = await axios.request(config);
 			const options = {
-				key: import.meta.env.RZRPAY_KEY,
-				currency: currency,
-				amount: amount.toString(),
-				order_id: order_id,
+				key: "rzp_test_TYl2fF7oUQ9ZEL",
+				currency: data.currency,
+				amount: data.amount.toString(),
+				order_id: data.order_id,
 				name: "Evently Pvt. Ltd.",
 				description: `Payment for registration for ${eventData.eventName}`,
 				image: "https://evently.adityachoudhury.com/assets/images/logo.svg",
@@ -85,12 +84,19 @@ const EventPage = () => {
 					name: user.data.name,
 					email: user.data.email,
 				},
+				notes: {
+					address: "Evently Pvt. Ltd.",
+				},
+				theme: {
+					color: "#3399cc",
+				},
+				handler: function (response) {
+					console.log(response);
+				},
 			};
 
-			console.log(options);
-
 			const paymentObject = new window.Razorpay(options);
-			console.log(paymentObject);
+			// console.log(paymentObject);
 			paymentObject.open();
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
