@@ -10,6 +10,7 @@ const EventPage = () => {
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState({});
 	const [iserror, setError] = useState(false);
+	const [isApplied, setIsApplied] = useState(false);
 	const { user, authenticated, ready } = useUserContext();
 	if (!id) {
 		return <Navigate to="/explore" />;
@@ -35,7 +36,26 @@ const EventPage = () => {
 			.catch((err) => {
 				setError(true);
 			});
-	}, []);
+
+		config = {
+			method: "get",
+			maxBodyLength: Infinity,
+			url: `/api/event/isApplied/${id}`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		axios
+			.request(config)
+			.then(({ data }) => {
+				setIsApplied(true);
+				toast.success("Event already applied!!");
+			})
+			.catch((err) => {
+				setIsApplied(false);
+				toast.error("Event not registered!!");
+			});
+	}, [isApplied]);
 
 	const registerEvent = async () => {};
 	function loadScript(src) {
@@ -80,6 +100,10 @@ const EventPage = () => {
 				name: "Evently Pvt. Ltd.",
 				description: `Payment for registration for ${eventData.eventName}`,
 				image: "https://evently.adityachoudhury.com/assets/images/logo.svg",
+				handler: function (response) {
+					toast.success("Payment Successful");
+					setIsApplied(true);
+				},
 				prefill: {
 					name: user.data.name,
 					email: user.data.email,
@@ -197,17 +221,21 @@ const EventPage = () => {
 							{eventData.free === true || eventData.price == 0 ? (
 								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
 									<button
+										disabled={isApplied}
 										onClick={registerEvent}
 										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-										Register Now
+										{isApplied ? "Registered" : "Register Now"}
 									</button>
 								</div>
 							) : (
 								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
 									<button
 										onClick={payForEvent}
+										disabled={isApplied}
 										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-										Pay ${eventData.price}/-
+										{isApplied
+											? "Paid & Registered"
+											: `Pay ${eventData.price}/-`}
 									</button>
 								</div>
 							)}
