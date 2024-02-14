@@ -38,7 +38,87 @@ const EventPage = () => {
 	}, []);
 
 	const registerEvent = async () => {};
-	const payForEvent = async () => {};
+	function loadScript(src) {
+		return new Promise((resolve) => {
+			const script = document.createElement("script");
+			script.src = src;
+			script.onload = () => {
+				resolve(true);
+			};
+			script.onerror = () => {
+				resolve(false);
+			};
+			document.body.appendChild(script);
+		});
+	}
+	const payForEvent = async () => {
+		try {
+			const res = await loadScript(
+				"https://checkout.razorpay.com/v1/checkout.js"
+			);
+
+			if (!res) {
+				alert("Razorpay SDK failed to load. Are you online?");
+				return;
+			}
+			let config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: `/api/payments/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: { amountToBePaid: eventData.price },
+			};
+
+			const { order_id, currency } = await axios.request(config);
+
+			const options = {
+				key: import.meta.env.RZRPAY_KEY,
+				currency: currency,
+				amount: amount.toString(),
+				order_id: order_id,
+				name: "Evently Pvt. Ltd.",
+				description: `Payment for registration for ${eventData.eventName}`,
+				image: "https://evently.adityachoudhury.com/assets/images/logo.svg",
+				prefill: {
+					name: user.data.name,
+					email: user.data.email,
+				},
+			};
+
+			console.log(options);
+
+			const paymentObject = new window.Razorpay(options);
+			console.log(paymentObject);
+			paymentObject.open();
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				if (error?.response?.status == 404)
+					toast.error("Data Missing in request!");
+				else if (error?.response?.status == 400)
+					toast.error("No associated event found");
+				else if (error?.response?.status == 400)
+					toast.error("Already Registered!");
+				else if (error?.response?.status == 500)
+					toast.error("Internal Server Error!! Please try again later!!");
+				else if (error?.message === "Network Error") {
+					console.log("Unable to contact servers! Please try again later");
+					toast.error("Unable to contact servers! Please try again later", {
+						style: {
+							border: "1px solid",
+							padding: "16px",
+							color: "#fa776c",
+						},
+						iconTheme: {
+							primary: "#fa776c",
+							secondary: "#FFFAEE",
+						},
+					});
+				}
+			}
+		}
+	};
 
 	if (iserror) {
 		return <Navigate to="/404" />;
