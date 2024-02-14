@@ -116,9 +116,6 @@ const EventPage = () => {
 				theme: {
 					color: "#3399cc",
 				},
-				handler: function (response) {
-					console.log(response);
-				},
 			};
 
 			const paymentObject = new window.Razorpay(options);
