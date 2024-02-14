@@ -37,24 +37,26 @@ const EventPage = () => {
 				setError(true);
 			});
 
-		config = {
-			method: "get",
-			maxBodyLength: Infinity,
-			url: `/api/event/isApplied/${id}`,
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		axios
-			.request(config)
-			.then(({ data }) => {
-				setIsApplied(true);
-				toast.success("Event already applied!!");
-			})
-			.catch((err) => {
-				setIsApplied(false);
-				toast.error("Event not registered!!");
-			});
+		if (user) {
+			config = {
+				method: "get",
+				maxBodyLength: Infinity,
+				url: `/api/event/isApplied/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
+			axios
+				.request(config)
+				.then(({ data }) => {
+					setIsApplied(true);
+					toast.success("Event already applied!!");
+				})
+				.catch((err) => {
+					setIsApplied(false);
+					toast.error("Event not registered!!");
+				});
+		}
 	}, [isApplied]);
 
 	const registerEvent = async () => {};
