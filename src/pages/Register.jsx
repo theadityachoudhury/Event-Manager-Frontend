@@ -5,6 +5,7 @@ import { SignupSchema } from "../schema";
 import toast, { Toaster } from "react-hot-toast";
 import delay from "./components/delay";
 import { Navigate } from "react-router-dom";
+import { useUserContext } from "../UserContext";
 
 const Register = ({ title }) => {
 	useEffect(() => {
@@ -16,14 +17,18 @@ const Register = ({ title }) => {
 			document.title = "Evently"; // Set your default title here
 		};
 	}, [title]);
+	const { authenticated } = useUserContext();
+	if (authenticated) {
+		return <Navigate to="/dashboard" />;
+	}
 	const [show, setShow] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [Cshow, setCShow] = useState(false);
 	const [formData, setFormData] = useState({
-		email: "adityasubham03@gmail.com",
-		name: "Aditya Choudhury",
-		password: "12345678",
-		cpassword: "12345678",
+		email: "",
+		name: "",
+		password: "",
+		cpassword: "",
 	});
 	const [formError, setFormError] = useState({
 		email: "",
@@ -137,7 +142,7 @@ const Register = ({ title }) => {
 							/>
 						</a>
 						<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-							Sign in to your account
+							Create your account
 						</h2>
 					</div>
 
@@ -336,7 +341,7 @@ const Register = ({ title }) => {
 									type="submit"
 									disabled={formData.password != formData.cpassword}
 									className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-									Sign in
+									Sign Up
 								</button>
 							</div>
 						</form>

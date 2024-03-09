@@ -21,6 +21,8 @@ import Events from "./pages/Events/Events";
 import Create from "./pages/Events/Create";
 import EventPage from "./pages/Events/EventPage";
 import NotFound from "./pages/NotFound/NotFound";
+import EditEvent from "./pages/Events/admin/EditEvent";
+import MarkAttendance from "./pages/Events/admin/MarkAttendance";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -42,6 +44,14 @@ function App() {
 						path="/events/create"
 						element={<Create title="Create Events" />}
 					/>
+					<Route
+						path="/event/edit/:id"
+						element={<EditEvent title="Edit Events" />}
+					/>
+					<Route
+						path="/event/mark/:id"
+						element={<MarkAttendance title="Mark Attendance" />}
+					/>
 				</Route>
 				<Route path="/" element={<Header isPublic={true} />}>
 					<Route path="/login" element={<Login title="Login" />} />
@@ -60,6 +70,7 @@ function App() {
 						path="/event/:id?"
 						element={<EventPage title="Register Event" />}
 					/>
+
 					<Route path="/contact" element={<Contact title="Contact" />} />
 
 					<Route index element={<Home title="Home" />} />

@@ -4,6 +4,8 @@ import Loader from "../components/Loader";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useUserContext } from "../../UserContext";
+import { MoveLeft } from "lucide-react";
+import ManageBar from "./admin/manageBar";
 
 const EventPage = () => {
 	const { id } = useParams();
@@ -12,6 +14,9 @@ const EventPage = () => {
 	const [iserror, setError] = useState(false);
 	const [isApplied, setIsApplied] = useState(false);
 	const { user, authenticated, ready } = useUserContext();
+	const [edit, setEdit] = useState(false);
+	const [eventDelete, setEventDelete] = useState(false);
+	const [attendance, setAttendance] = useState(false);
 	if (!id) {
 		return <Navigate to="/explore" />;
 	}
@@ -57,9 +62,51 @@ const EventPage = () => {
 					toast.error("Event not registered!!");
 				});
 		}
-	}, [isApplied]);
+	}, []);
 
-	const registerEvent = async () => {};
+	const registerEvent = async () => {
+		try {
+			let config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: `/api/event/apply/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: { amountToBePaid: eventData.price },
+			};
+			const { data } = await axios.request(config);
+			setIsApplied(true);
+			toast.success("Successfully Applied Event!!");
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				if (error?.response?.status == 404)
+					toast.error("Data Missing in request!");
+				else if (error?.response?.status == 401)
+					toast.error("No associated event found");
+				else if (error?.response?.status == 406)
+					toast.error("Participants Exceeded");
+				else if (error?.response?.status == 409)
+					toast.error("Already Registered!");
+				else if (error?.response?.status == 500)
+					toast.error("Internal Server Error!! Please try again later!!");
+				else if (error?.message === "Network Error") {
+					console.log("Unable to contact servers! Please try again later");
+					toast.error("Unable to contact servers! Please try again later", {
+						style: {
+							border: "1px solid",
+							padding: "16px",
+							color: "#fa776c",
+						},
+						iconTheme: {
+							primary: "#fa776c",
+							secondary: "#FFFAEE",
+						},
+					});
+				}
+			}
+		}
+	};
 	function loadScript(src) {
 		return new Promise((resolve) => {
 			const script = document.createElement("script");
@@ -73,6 +120,17 @@ const EventPage = () => {
 			document.body.appendChild(script);
 		});
 	}
+	const editEvent = async () => {
+		setEdit(true);
+	};
+
+	const deleteEvent = async () => {
+		console.log("Delete Event");
+	};
+
+	const markAttendance = async () => {
+		setAttendance(true);
+	};
 	const payForEvent = async () => {
 		try {
 			const res = await loadScript(
@@ -157,116 +215,155 @@ const EventPage = () => {
 		return <Loader />;
 	}
 
+	if (edit) {
+		return <Navigate to={`/event/edit/${id}`} />;
+	}
+	if (attendance) {
+		return <Navigate to={`/event/mark/${id}`} />;
+	}
+
 	if (!loading && !iserror && eventData)
 		return (
-			<div className="wrapper sm:grid sm:grid-cols-3 gap-5">
-				<div className="space-y-2 sm:col-span-2">
-					<div className="">
-						<h1 className="h1-bold">{eventData.eventName}</h1>
-					</div>
-					<div className="flex gap-2">
-						<p className="bg-black text-white p-2 rounded-md w-min">
-							{eventData.eventCategory?.categoryName}
+			<div className="wrapper">
+				<div className="">
+					<Link to="/explore">
+						<p className="flex gap-2">
+							<MoveLeft />
+							Back to Explore Page
 						</p>
-						<p className="p-2">
-							{`${new Date(eventData.eventStartDate || 0).getDate()}/${new Date(
-								eventData.eventStartDate || 0
-							).getMonth()}/${new Date(
-								eventData.eventStartDate || 0
-							).getFullYear()}`}
-						</p>
+					</Link>
+				</div>
+				<div className=" sm:grid sm:grid-cols-3 gap-5">
+					<div className="space-y-2 sm:col-span-2">
+						<div className="">
+							<h1 className="h1-bold">{eventData.eventName}</h1>
+						</div>
+						{authenticated &&
+							user &&
+							ready &&
+							(user.data.role == "admin" ||
+								user.data._id == eventData.ownerId) && (
+								<div>
+									<ManageBar
+										edit={editEvent}
+										mark={markAttendance}
+										deleteEvent={deleteEvent}
+									/>
+								</div>
+							)}
+
+						<div className="flex gap-2">
+							<p className="bg-black text-white p-2 rounded-md w-min">
+								{eventData.eventCategory?.categoryName}
+							</p>
+							<p className="p-2">
+								{`${new Date(
+									eventData.eventStartDate || 0
+								).getDate()}/${new Date(
+									eventData.eventStartDate || 0
+								).getMonth()}/${new Date(
+									eventData.eventStartDate || 0
+								).getFullYear()}`}
+							</p>
+						</div>
+						<div className="block sm:hidden">
+							<img
+								src="/assets/images/test-image.avif"
+								alt="hero"
+								width={1000}
+								height={1000}
+								className="mt-5 max-h-[70vh] object-contain object-center md:max-h-full rounded-lg"
+							/>
+						</div>
+						<div className="text-xl font-semibold">
+							<p>Location:- {eventData.eventLocation}</p>
+						</div>
+						<div className="text-xl font-medium">
+							<p>Price:- ${eventData.price}/-</p>
+						</div>
+						<div className="text-xl font-medium">
+							<p>
+								Participation Limit:- {eventData.eventParticipationLimit}{" "}
+								Persons
+							</p>
+						</div>
+						<div>
+							<p className="mb-10">
+								{eventData.eventDescription}. Lorem ipsum dolor sit amet,
+								consectetur adipiscing elit. Nam congue nibh a malesuada
+								viverra. Nunc consequat augue quam, ut imperdiet nulla consequat
+								a. Suspendisse fermentum lectus mi, vitae vestibulum lacus
+								aliquet ac. Aliquam odio ex, maximus eget gravida ut, interdum
+								ut tortor.
+							</p>
+						</div>
+						{!authenticated && ready && (
+							<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+								<Link
+									className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400"
+									to={`/login?callback=/event/${id}`}>
+									<button className="">Login To Continue</button>
+								</Link>
+							</div>
+						)}
+
+						{authenticated &&
+							ready &&
+							user &&
+							(user.data.role != "admin" ||
+								user.data._id != eventData.ownerId) && (
+								<div>
+									{eventData.free === true || eventData.price == 0 ? (
+										<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+											<button
+												disabled={isApplied}
+												onClick={registerEvent}
+												className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+												{isApplied ? "Registered" : "Register Now"}
+											</button>
+										</div>
+									) : (
+										<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+											<button
+												onClick={payForEvent}
+												disabled={isApplied}
+												className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+												{isApplied
+													? "Paid & Registered"
+													: `Pay ${eventData.price}/-`}
+											</button>
+										</div>
+									)}
+								</div>
+							)}
+						<div className="mt-2 font-medium">
+							<p className="mt-10">
+								Event Posted On:-{" "}
+								{`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
+									eventData.createdAt || 0
+								).getMonth()}/${new Date(
+									eventData.createdAt || 0
+								).getFullYear()}`}
+							</p>
+							<p className="">
+								Event Last Updated On:-{" "}
+								{`${new Date(eventData.updatedAt || 0).getDate()}/${new Date(
+									eventData.updatedAt || 0
+								).getMonth()}/${new Date(
+									eventData.updatedAt || 0
+								).getFullYear()}`}
+							</p>
+						</div>
 					</div>
-					<div className="block sm:hidden">
+					<div>
 						<img
 							src="/assets/images/test-image.avif"
 							alt="hero"
 							width={1000}
 							height={1000}
-							className="mt-5 max-h-[70vh] object-contain object-center md:max-h-full rounded-lg"
+							className="hidden sm:block max-h-[70vh] object-contain object-center md:max-h-full rounded-md"
 						/>
 					</div>
-					<div className="text-xl font-semibold">
-						<p>Location:- {eventData.eventLocation}</p>
-					</div>
-					<div className="text-xl font-medium">
-						<p>Price:- ${eventData.price}/-</p>
-					</div>
-					<div className="text-xl font-medium">
-						<p>
-							Participation Limit:- {eventData.eventParticipationLimit} Persons
-						</p>
-					</div>
-					<div>
-						<p className="mb-10">
-							{eventData.eventDescription}. Lorem ipsum dolor sit amet,
-							consectetur adipiscing elit. Nam congue nibh a malesuada viverra.
-							Nunc consequat augue quam, ut imperdiet nulla consequat a.
-							Suspendisse fermentum lectus mi, vitae vestibulum lacus aliquet
-							ac. Aliquam odio ex, maximus eget gravida ut, interdum ut tortor.
-						</p>
-					</div>
-					{!authenticated && ready && (
-						<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-							<Link
-								className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400"
-								to={`/login?callback=/event/${id}`}>
-								<button className="">Login To Continue</button>
-							</Link>
-						</div>
-					)}
-
-					{authenticated && ready && user && (
-						<div>
-							{eventData.free === true || eventData.price == 0 ? (
-								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-									<button
-										disabled={isApplied}
-										onClick={registerEvent}
-										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-										{isApplied ? "Registered" : "Register Now"}
-									</button>
-								</div>
-							) : (
-								<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-									<button
-										onClick={payForEvent}
-										disabled={isApplied}
-										className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-										{isApplied
-											? "Paid & Registered"
-											: `Pay ${eventData.price}/-`}
-									</button>
-								</div>
-							)}
-						</div>
-					)}
-					<div className="mt-2 font-medium">
-						<p className="mt-10">
-							Event Posted On:-{" "}
-							{`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
-								eventData.createdAt || 0
-							).getMonth()}/${new Date(
-								eventData.createdAt || 0
-							).getFullYear()}`}
-						</p>
-						<p className="">
-							Event Last Updated On:-{" "}
-							{`${new Date(eventData.updatedAt || 0).getDate()}/${new Date(
-								eventData.updatedAt || 0
-							).getMonth()}/${new Date(
-								eventData.updatedAt || 0
-							).getFullYear()}`}
-						</p>
-					</div>
-				</div>
-				<div>
-					<img
-						src="/assets/images/test-image.avif"
-						alt="hero"
-						width={1000}
-						height={1000}
-						className="hidden sm:block max-h-[70vh] object-contain object-center md:max-h-full rounded-md"
-					/>
 				</div>
 			</div>
 		);

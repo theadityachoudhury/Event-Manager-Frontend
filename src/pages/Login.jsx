@@ -32,8 +32,8 @@ const Login = ({ title }) => {
 		account: "",
 	});
 	const [formData, setFormData] = useState({
-		email: "adityasubham03@gmail.com",
-		password: "12345678",
+		email: "",
+		password: "",
 	});
 	const toggleShow = () => {
 		setShow((prevShow) => !prevShow);

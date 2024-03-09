@@ -473,6 +473,7 @@ const create = ({ title }) => {
 											name="eventImage"
 											id="eventImage"
 											className="overflow-auto"
+											accept=".jpg"
 										/>
 									</div>
 								</div>

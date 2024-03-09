@@ -50,7 +50,7 @@ const Events = ({ title }) => {
 				</form>
 			</div>
 
-			<div className="mt-5">
+			<div className="wrapper">
 				<EventsCard
 					data={query.query}
 					page={query.page}

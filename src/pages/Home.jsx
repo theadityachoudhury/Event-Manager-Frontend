@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import Header from "../Header";
 import { Link } from "react-router-dom";
+import EventsCard from "./Events/EventsCard";
+import { MoveRight } from "lucide-react";
 
 const Home = ({ title }) => {
 	useEffect(() => {
@@ -28,9 +30,11 @@ const Home = ({ title }) => {
 									participants. Weather it be formal or informal events. We got
 									you covered.
 								</p>
-								<button className="text-white max-w-max bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-xl px-5 py-4  dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
-									<Link to="/explore">Explore Now</Link>
-								</button>
+								<Link to="/explore">
+									<button className="text-white max-w-max bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-xl px-5 py-4  dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none">
+										Explore Now
+									</button>
+								</Link>
 							</div>
 
 							<img
@@ -43,17 +47,21 @@ const Home = ({ title }) => {
 						</div>
 					</section>
 
-					<section
-						id="events"
-						className="wrapper my-8 flex flex-col gap-8 md:gap-12">
+					<section id="events" className="wrapper">
 						<h2 className="h2-bold">
 							Trust by <br /> Thousands of Events
 						</h2>
 
-						{/* <div className="flex w-full flex-col gap-5 md:flex-row">
-		<Search />
-		<CategoryFilter />
-	</div> */}
+						<div className="sm:grid sm:grid-cols-2 mt-6">
+							<p className="text-4xl text-center sm:text-left sm:text-2xl font-medium">Explore Events</p>
+							<Link to="/explore" className="justify-center flex gap-2 text-xl sm:justify-end mt-1">
+								View All Events <MoveRight />
+							</Link>
+						</div>
+
+						<div className="wrapper flex w-full flex-col gap-5 md:flex-row">
+							<EventsCard data="" perPage={3} />
+						</div>
 					</section>
 				</main>
 			</div>
