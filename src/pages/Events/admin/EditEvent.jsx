@@ -96,12 +96,13 @@ const EditEvent = () => {
 	if (loading) {
 		return <Loader />;
 	}
-	if (
-		!loading &&
-		formData &&
-		(user.data._id != formData.ownerId || user.data.role != "admin")
-	) {
-		return <Navigate to={`/event/${id}`} />;
+
+	if (user.data.role != "admin") {
+		if (formData.ownerId) {
+			if (formData.ownerId != user.data._id) {
+				return <Navigate to={`/event/${id}`} />;
+			}
+		}
 	}
 
 	if (iserror) {

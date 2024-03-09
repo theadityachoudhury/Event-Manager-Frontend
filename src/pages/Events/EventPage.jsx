@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useUserContext } from "../../UserContext";
 import { MoveLeft } from "lucide-react";
-import ManageBar from "./admin/ManageBar"
+import ManageBar from "./admin/ManageBar";
 
 const EventPage = () => {
 	const { id } = useParams();
@@ -307,35 +307,38 @@ const EventPage = () => {
 							</div>
 						)}
 
-						{authenticated &&
-							ready &&
-							user &&
-							(user.data.role != "admin" ||
-								user.data._id != eventData.ownerId) && (
-								<div>
-									{eventData.free === true || eventData.price == 0 ? (
-										<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-											<button
-												disabled={isApplied}
-												onClick={registerEvent}
-												className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-												{isApplied ? "Registered" : "Register Now"}
-											</button>
-										</div>
-									) : (
-										<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-											<button
-												onClick={payForEvent}
-												disabled={isApplied}
-												className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-												{isApplied
-													? "Paid & Registered"
-													: `Pay ${eventData.price}/-`}
-											</button>
-										</div>
-									)}
-								</div>
-							)}
+						{authenticated && ready && user && eventData && (
+							<div>
+								{eventData.ownerId == user.data._id ||
+								eventData.ownerId == user.data.role ? (
+									<></>
+								) : (
+									<div>
+										{eventData.free === true || eventData.price == 0 ? (
+											<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+												<button
+													disabled={isApplied}
+													onClick={registerEvent}
+													className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+													{isApplied ? "Registered" : "Register Now"}
+												</button>
+											</div>
+										) : (
+											<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+												<button
+													onClick={payForEvent}
+													disabled={isApplied}
+													className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+													{isApplied
+														? "Paid & Registered"
+														: `Pay ${eventData.price}/-`}
+												</button>
+											</div>
+										)}
+									</div>
+								)}
+							</div>
+						)}
 						<div className="mt-2 font-medium">
 							<p className="mt-10">
 								Event Posted On:-{" "}
