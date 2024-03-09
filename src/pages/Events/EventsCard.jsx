@@ -65,7 +65,7 @@ const EventsCard = ({ data, page = 1, perPage = 10 }) => {
 		// 	})}
 		// </div>
 
-		<div className="wrapper">
+		<div className="">
 			<div>
 				<p className="font-bold">{eventData.results.length} Results Found</p>
 			</div>
@@ -76,7 +76,7 @@ const EventsCard = ({ data, page = 1, perPage = 10 }) => {
 							key={data._id}
 							className="rounded-md p-2"
 							to={`/event/${data._id}`}>
-							<div key={data._id} className="w-fit sm:max-w-[300px]">
+							<div key={data._id} className="w-auto sm:max-w-[300px]">
 								<div className="mt-2">
 									<img
 										src="/assets/images/test-image.avif"

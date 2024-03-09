@@ -25,10 +25,10 @@ const Events = ({ title }) => {
 	};
 	return (
 		<div className="wrapper">
-			<div>
+			<div className="wrapper">
 				<h1 className="h1-bold">Explore All Events</h1>
 			</div>
-			<div className="mt-5">
+			<div className="wrapper mt-5">
 				<form onSubmit={handleSearchSubmit} className="flex gap-3">
 					<input
 						type="text"
@@ -50,7 +50,7 @@ const Events = ({ title }) => {
 				</form>
 			</div>
 
-			<div className="">
+			<div className="flex-center">
 				<EventsCard
 					data={query.query}
 					page={query.page}

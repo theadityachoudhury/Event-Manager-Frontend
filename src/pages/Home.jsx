@@ -47,19 +47,19 @@ const Home = ({ title }) => {
 						</div>
 					</section>
 
-					<section id="events" className="wrapper">
-						<h2 className="h2-bold">
+					<section id="events" className="">
+						<h2 className="h2-bold wrapper">
 							Trust by <br /> Thousands of Events
 						</h2>
 
-						<div className="sm:grid sm:grid-cols-2 mt-6">
+						<div className=" wrapper sm:grid sm:grid-cols-2 mt-6">
 							<p className="text-4xl text-center sm:text-left sm:text-2xl font-medium">Explore Events</p>
 							<Link to="/explore" className="justify-center flex gap-2 text-xl sm:justify-end mt-1">
 								View All Events <MoveRight />
 							</Link>
 						</div>
 
-						<div className="flex w-full flex-col gap-5 md:flex-row">
+						<div className="flex-col flex-center">
 							<EventsCard data="" perPage={3} />
 						</div>
 					</section>
