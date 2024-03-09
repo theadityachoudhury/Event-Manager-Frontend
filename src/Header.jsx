@@ -172,8 +172,8 @@ export default function Header({ isPublic }) {
 				<div className="">
 					<Toaster position="bottom-right" reverseOrder={true} />
 				</div>
-				<div className="wrapper flex items-center justify-between">
-					<Link href="/" className="w-36">
+				<div className="wrapper flex gap-3 items-center justify-between">
+					<Link href="/" className="w-36 md:hidden lg:block sm:block">
 						<img
 							src="/assets/images/logo.svg"
 							width={128}
