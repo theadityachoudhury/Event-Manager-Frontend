@@ -65,11 +65,11 @@ const EventsCard = ({ data, page = 1, perPage = 10 }) => {
 		// 	})}
 		// </div>
 
-		<div className="">
+		<div className="wrapper">
 			<div>
 				<p className="font-bold">{eventData.results.length} Results Found</p>
 			</div>
-			<div className="wrapper grid grid-cols-1 sm:grid-cols-3 gap-5">
+			<div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
 				{eventData.results.map((data) => {
 					return (
 						<Link

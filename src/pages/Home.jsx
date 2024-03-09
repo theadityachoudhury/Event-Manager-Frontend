@@ -59,7 +59,7 @@ const Home = ({ title }) => {
 							</Link>
 						</div>
 
-						<div className="wrapper flex w-full flex-col gap-5 md:flex-row">
+						<div className="flex w-full flex-col gap-5 md:flex-row">
 							<EventsCard data="" perPage={3} />
 						</div>
 					</section>
