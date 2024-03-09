@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useUserContext } from "../../UserContext";
 import { MoveLeft } from "lucide-react";
-import ManageBar from "./admin/manageBar";
+import ManageBar from "./admin/ManageBar"
 
 const EventPage = () => {
 	const { id } = useParams();
