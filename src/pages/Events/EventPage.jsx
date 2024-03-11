@@ -20,6 +20,19 @@ const EventPage = () => {
 	if (!id) {
 		return <Navigate to="/explore" />;
 	}
+	useEffect(() => {
+		// Update the document title when the component mounts
+		if (eventData && eventData.eventName != "undefined") {
+			document.title = eventData.eventName + " | Evently";
+		} else {
+			document.title = "Evently";
+		}
+
+		// Optionally, you can return a cleanup function to revert the title when the component unmounts
+		return () => {
+			document.title = "Evently"; // Set your default title here
+		};
+	}, [eventData]);
 
 	useEffect(() => {
 		setLoading(true);
@@ -43,24 +56,26 @@ const EventPage = () => {
 			});
 
 		if (user) {
-			config = {
-				method: "get",
-				maxBodyLength: Infinity,
-				url: `/api/event/isApplied/${id}`,
-				headers: {
-					"Content-Type": "application/json",
-				},
-			};
-			axios
-				.request(config)
-				.then(({ data }) => {
-					setIsApplied(true);
-					toast.success("Event already applied!!");
-				})
-				.catch((err) => {
-					setIsApplied(false);
-					toast.error("Event not registered!!");
-				});
+			if (user.data.role != "admin") {
+				config = {
+					method: "get",
+					maxBodyLength: Infinity,
+					url: `/api/event/isApplied/${id}`,
+					headers: {
+						"Content-Type": "application/json",
+					},
+				};
+				axios
+					.request(config)
+					.then(({ data }) => {
+						setIsApplied(true);
+						toast.success("Event already applied!!");
+					})
+					.catch((err) => {
+						setIsApplied(false);
+						toast.error("Event not registered!!");
+					});
+			}
 		}
 	}, []);
 
@@ -130,6 +145,11 @@ const EventPage = () => {
 
 	const markAttendance = async () => {
 		setAttendance(true);
+	};
+
+	const [participants, setViewParticipants] = useState(false);
+	const viewParticipants = async () => {
+		setViewParticipants(true);
 	};
 	const payForEvent = async () => {
 		try {
@@ -221,6 +241,9 @@ const EventPage = () => {
 	if (attendance) {
 		return <Navigate to={`/event/mark/${id}`} />;
 	}
+	if (participants) {
+		return <Navigate to={`/event/participants/${id}`} />;
+	}
 
 	if (!loading && !iserror && eventData)
 		return (
@@ -248,6 +271,7 @@ const EventPage = () => {
 										edit={editEvent}
 										mark={markAttendance}
 										deleteEvent={deleteEvent}
+										viewParticipants={viewParticipants}
 									/>
 								</div>
 							)}
@@ -310,7 +334,7 @@ const EventPage = () => {
 						{authenticated && ready && user && eventData && (
 							<div>
 								{eventData.ownerId == user.data._id ||
-								eventData.ownerId == user.data.role ? (
+								user.data.role=="admin" ? (
 									<></>
 								) : (
 									<div>
