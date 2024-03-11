@@ -23,7 +23,7 @@ import EventPage from "./pages/Events/EventPage";
 import NotFound from "./pages/NotFound/NotFound";
 import EditEvent from "./pages/Events/admin/EditEvent";
 import MarkAttendance from "./pages/Events/admin/MarkAttendance";
-import ViewParticipantsList from "./pages/Events/admin/viewParticipantsList";
+import ViewParticipantsList from "./pages/Events/admin/ViewParticipantsList";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
