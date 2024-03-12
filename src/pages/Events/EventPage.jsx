@@ -138,9 +138,46 @@ const EventPage = () => {
 	const editEvent = async () => {
 		setEdit(true);
 	};
-
+	const [confirmDelete, setConfirmDelete] = useState(false);
 	const deleteEvent = async () => {
-		console.log("Delete Event");
+		setConfirmDelete(true);
+	};
+	const [deleteNav, setDeleteNav] = useState(false);
+	const handleDelete = async () => {
+		try {
+			if (confirmDelete) {
+				await axios.delete(`/api/event/${id}`);
+				toast.success("Delete Successful!!");
+				setDeleteNav(true);
+			} else {
+				toast.error("Invalid Function!!");
+			}
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				if (error?.response?.status == 404)
+					toast.error("Data Missing in request!");
+				else if (error?.response?.status == 500)
+					toast.error("Internal Server Error!! Please try again later!!");
+				else if (error?.message === "Network Error") {
+					console.log("Unable to contact servers! Please try again later");
+					toast.error("Unable to contact servers! Please try again later", {
+						style: {
+							border: "1px solid",
+							padding: "16px",
+							color: "#fa776c",
+						},
+						iconTheme: {
+							primary: "#fa776c",
+							secondary: "#FFFAEE",
+						},
+					});
+				}
+			}
+		}
+	};
+
+	const handleCancel = async () => {
+		setConfirmDelete(false);
 	};
 
 	const markAttendance = async () => {
@@ -244,10 +281,13 @@ const EventPage = () => {
 	if (participants) {
 		return <Navigate to={`/event/participants/${id}`} />;
 	}
+	if (deleteNav) {
+		return <Navigate to={`/explore`} />;
+	}
 
 	if (!loading && !iserror && eventData)
 		return (
-			<div className="wrapper">
+			<div className={`wrapper`}>
 				<div className="">
 					<Link to="/explore">
 						<p className="flex gap-2">
@@ -256,7 +296,7 @@ const EventPage = () => {
 						</p>
 					</Link>
 				</div>
-				<div className=" sm:grid sm:grid-cols-3 gap-5">
+				<div className="sm:grid sm:grid-cols-3 gap-5">
 					<div className="space-y-2 sm:col-span-2">
 						<div className="">
 							<h1 className="h1-bold">{eventData.eventName}</h1>
@@ -312,14 +352,7 @@ const EventPage = () => {
 							</p>
 						</div>
 						<div>
-							<p className="mb-10">
-								{eventData.eventDescription}. Lorem ipsum dolor sit amet,
-								consectetur adipiscing elit. Nam congue nibh a malesuada
-								viverra. Nunc consequat augue quam, ut imperdiet nulla consequat
-								a. Suspendisse fermentum lectus mi, vitae vestibulum lacus
-								aliquet ac. Aliquam odio ex, maximus eget gravida ut, interdum
-								ut tortor.
-							</p>
+							<p className="mb-10">{eventData.eventDescription}</p>
 						</div>
 						{!authenticated && ready && (
 							<div className="flex justify-center items-center sm:justify-start sm:items-start ">
@@ -334,7 +367,7 @@ const EventPage = () => {
 						{authenticated && ready && user && eventData && (
 							<div>
 								{eventData.ownerId == user.data._id ||
-								user.data.role=="admin" ? (
+								user.data.role == "admin" ? (
 									<></>
 								) : (
 									<div>
@@ -392,6 +425,25 @@ const EventPage = () => {
 						/>
 					</div>
 				</div>
+				{confirmDelete && ( // Render confirmation modal if confirmDelete is true
+					<div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+						<div className="bg-slate-100 text-black p-4 rounded-md shadow-md">
+							<p>Are you sure you want to delete this event?</p>
+							<div className="mt-4 flex justify-center space-x-5">
+								<button
+									onClick={handleCancel}
+									className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">
+									Cancel
+								</button>
+								<button
+									onClick={handleDelete}
+									className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md mr-2">
+									Delete
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 		);
 };
