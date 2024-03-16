@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import EditEvent from "./pages/Events/admin/EditEvent";
 import MarkAttendance from "./pages/Events/admin/MarkAttendance";
 import ViewParticipantsList from "./pages/Events/admin/ViewParticipantsList";
+import ManageUsers from "./pages/admin/user/ManageUsers";
 
 const baseURL =
 	window.location.hostname === "evently.adityachoudhury.com"
@@ -56,6 +57,11 @@ function App() {
 					<Route
 						path="/event/participants/:id"
 						element={<ViewParticipantsList title="Mark Attendance" />}
+					/>
+
+					<Route
+						path="/admin/manage/users"
+						element={<ManageUsers title="Mark Attendance" />}
 					/>
 				</Route>
 				<Route path="/" element={<Header isPublic={true} />}>

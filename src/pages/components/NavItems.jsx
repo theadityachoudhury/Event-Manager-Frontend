@@ -41,7 +41,7 @@ const NavItems = () => {
 					☰
 				</div>
 				{showMenu && (
-					<div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50">
+					<div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 z-50">
 						<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 bg-white rounded-lg">
 							<div className="flex justify-end">
 								<button
