@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import toast from "react-hot-toast";
+import ManageModal from "./ManageModal";
 
 const ManageUsers = () => {
 	const { user } = useUserContext();
@@ -48,9 +49,9 @@ const ManageUsers = () => {
 		} else {
 			cachedUserData.then((data) => {
 				setUsers(data);
-			})
+			});
 		}
-	}, [user,users]);
+	}, [user, users]);
 	console.log(users);
 	if (notAdmin) {
 		return <Navigate to="/dashboard" />;
@@ -65,9 +66,7 @@ const ManageUsers = () => {
 			</section>
 			<section>
 				<div className="">
-					<div className="container mx-auto mt-8">
-						<h1 className="text-3xl font-semibold mb-4">Event Attendance</h1>
-
+					<div className="mx-auto mt-8">
 						<div className="overflow-x-auto">
 							<table className="min-w-full border rounded-lg">
 								<thead>
@@ -80,9 +79,10 @@ const ManageUsers = () => {
 										<th className="border p-2">Actions</th>
 									</tr>
 								</thead>
-								<tbody>
-									{users.length!=0 ? (
-										users.map((userdata) => (
+
+								{users.length != 0 ? (
+									users.map((userdata) => (
+										<tbody>
 											<tr key={userdata._id} className="text-center">
 												<td className="border p-2">{userdata.name}</td>
 												<td className="border p-2">{userdata.email}</td>
@@ -94,22 +94,18 @@ const ManageUsers = () => {
 													{userdata.face ? "True" : "False"}
 												</td>
 												<td className="border p-2 space-x-2">
-													<button className="text-white bg-green-700 hover:bg-green-900 p-1 rounded-md">
-														Edit
-													</button>
-													<button className="text-white bg-blue-700 hover:bg-blue-900 p-1 rounded-md">
-														View
-													</button>
-													<button className="text-white bg-red-700 hover:bg-red-900 p-1 rounded-md">
-														Delete
-													</button>
+													<ManageModal id={userdata._id} />
 												</td>
 											</tr>
-										))
-									) : (
-										<Loader />
-									)}
-								</tbody>
+										</tbody>
+									))
+								) : (
+									<tbody className="text-center text-xl">
+										<td colSpan={6}>
+											<Loader />
+										</td>
+									</tbody>
+								)}
 							</table>
 						</div>
 					</div>
