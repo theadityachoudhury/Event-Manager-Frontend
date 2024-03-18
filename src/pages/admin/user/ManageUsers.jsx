@@ -1,17 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useUserContext } from "../../../UserContext";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+import Loader from "../../components/Loader";
+import toast from "react-hot-toast";
 
 const ManageUsers = () => {
 	const { user } = useUserContext();
 	const [notAdmin, setNotAdmin] = useState(false);
-	useEffect(() => {
-		if (user.data.role != "admin") {
+	const [loading, setLoading] = useState(true);
+	const [users, setUsers] = useState([]);
+	const getAllUserData = async () => {
+		let config = {
+			method: "get",
+			maxBodyLength: Infinity,
+			url: `/api/auth/admin/getAllUsers`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		try {
+			const { data } = await axios.request(config);
+			return data;
+		} catch (error) {
+			console.log(error);
+			throw new Error("Unauthorized");
+		}
+	};
+
+	const cachedUserData = useMemo(async () => {
+		setLoading(true);
+		try {
+			const data = await getAllUserData();
+			setLoading(false);
+			return data;
+		} catch (error) {
+			console.log(error);
 			setNotAdmin(true);
+			toast.error("Unauthorized!!");
+			setLoading(false);
+			return [];
 		}
 	}, [user]);
+	useEffect(() => {
+		if (user.data.role !== "admin") {
+			setNotAdmin(true);
+		} else {
+			cachedUserData.then((data) => {
+				setUsers(data);
+			})
+		}
+	}, [user,users]);
+	console.log(users);
 	if (notAdmin) {
 		return <Navigate to="/dashboard" />;
+	}
+	if (loading) {
+		return <Loader />;
 	}
 	return (
 		<div className="wrapper">
@@ -29,33 +74,42 @@ const ManageUsers = () => {
 									<tr className="bg-gray-200">
 										<th className="border p-2">Name</th>
 										<th className="border p-2">Email</th>
-                                        <th className="border p-2">Mobile</th>
-                                        <th className="border p-2">Role</th>
+										<th className="border p-2">Role</th>
 										<th className="border p-2">Verified</th>
-                                        
-                                        
+										<th className="border p-2">Face</th>
+										<th className="border p-2">Actions</th>
 									</tr>
 								</thead>
-								{/* <tbody>
-									{users.map((userdata) => (
-										<tr key={userdata._id} className="text-center">
-											<td className="border p-2">
-												<input
-													onChange={() =>
-														handleCheckboxChange(userdata.userId._id)
-													}
-													type="checkbox"
-													checked={userdata.attended}
-													className="mx-auto h-6 w-6 rounded-full text-blue-500 border border-blue-500 shadow"
-												/>
-											</td>
-											<td className="border p-2">{userdata.userId.email}</td>
-											<td className="border p-2 hidden sm:block">
-												{userdata.userId.name}
-											</td>
-										</tr>
-									))}
-								</tbody> */}
+								<tbody>
+									{users.length!=0 ? (
+										users.map((userdata) => (
+											<tr key={userdata._id} className="text-center">
+												<td className="border p-2">{userdata.name}</td>
+												<td className="border p-2">{userdata.email}</td>
+												<td className="border p-2">{userdata.role}</td>
+												<td className="border p-2">
+													{userdata.verified ? "True" : "False"}
+												</td>
+												<td className="border p-2">
+													{userdata.face ? "True" : "False"}
+												</td>
+												<td className="border p-2 space-x-2">
+													<button className="text-white bg-green-700 hover:bg-green-900 p-1 rounded-md">
+														Edit
+													</button>
+													<button className="text-white bg-blue-700 hover:bg-blue-900 p-1 rounded-md">
+														View
+													</button>
+													<button className="text-white bg-red-700 hover:bg-red-900 p-1 rounded-md">
+														Delete
+													</button>
+												</td>
+											</tr>
+										))
+									) : (
+										<Loader />
+									)}
+								</tbody>
 							</table>
 						</div>
 					</div>

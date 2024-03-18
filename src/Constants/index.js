@@ -26,6 +26,10 @@ export const headerLinks = [
     route: '/contact',
     public: true
   },
+  {
+    label: 'Manage Users',
+    route:"/admin/manage/users"
+  }
 ]
 
 export const eventDefaultValues = {
