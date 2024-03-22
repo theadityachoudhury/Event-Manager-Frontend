@@ -42,7 +42,7 @@ const ManageUsers = () => {
 			setLoading(false);
 			return [];
 		}
-	}, [user]);
+	}, []);
 	useEffect(() => {
 		if (user.data.role !== "admin") {
 			setNotAdmin(true);
@@ -52,7 +52,6 @@ const ManageUsers = () => {
 			});
 		}
 	}, [user, users]);
-	console.log(users);
 	if (notAdmin) {
 		return <Navigate to="/dashboard" />;
 	}

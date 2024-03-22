@@ -92,7 +92,6 @@ const create = ({ title }) => {
 	if (loading) {
 		<Loader title="Loading" />;
 	}
-	console.log(formError);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log(formData);
@@ -109,7 +108,7 @@ const create = ({ title }) => {
 					},
 					data: formData,
 				};
-				const response = await axios.request(config);
+				const { data } = await axios.request(config);
 				setFormData(defaultState);
 				setRequest(false);
 				toast.success("Event Creation Successful", {
