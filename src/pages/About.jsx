@@ -2,6 +2,32 @@ import React, { useEffect } from "react";
 import Footer from "../Footer";
 
 const About = ({ title }) => {
+	const teamMembers = [{
+		imageSrc: "/assets/team/aditya10.JPG",
+		name: "Aditya Singh",
+		id: "2129010",
+		role: "UI Designer",
+	}, {
+		imageSrc: "/assets/team/aditya11.jpg",
+		name: "Aditya Choudhury",
+		id: "2129011",
+		role: "Full Stack Dev",
+	}, {
+		imageSrc: "/assets/team/adwaith.jpg",
+		name: "Adwaith PJ",
+		id: "2129013",
+		role: "ML Dev",
+	}, {
+		imageSrc: "/assets/team/diptangshu.jpg",
+		name: "Diptangshu Bhattacharjee",
+		id: "2129023",
+		role: "Investor",
+	}, {
+		imageSrc: "/assets/team/megha.jpg",
+		name: "MeghaVarshini Nukam",
+		id: "2129154",
+		role: "Backend Dev",
+	}]
 	useEffect(() => {
 		// Update the document title when the component mounts
 		document.title = title + " | Evently";
@@ -43,7 +69,7 @@ const About = ({ title }) => {
 								cozy family gathering, Evently has you covered with a range of
 								features:
 							</p>
-							<ul className="md:text-xl text-md space-y-2 flex gap-4 stroke-gray-500">
+							<ul className="md:text-xl text-md space-y-2 sm:flex sm:gap-4 stroke-gray-500">
 								<li className="bg-indigo-400 hover:bg-red-400 transition ease-in-out duration-300 p-3 rounded-md">
 									<strong>Automatic Event Image Distribution:</strong> Every
 									attendee receives their event photos!
@@ -75,63 +101,24 @@ const About = ({ title }) => {
 								with Evently, your events are in good hands!
 							</p>
 						</div>
+
 						<div className="mt-9">
-							<h1 className="text-center text-4xl font-semibold">Our Team Members</h1>
-							<div className="sm:flex flex-row m-5 gap-28 items-center justify-center content-center text-center">
-								<div className="">
-									<img
-										src="/assets/team/aditya10.JPG"
-										alt=""
-										className="rounded-full h-40 w-40"
-									/>
-									<p>Aditya Singh</p>
-									<p>2129010</p>
-									<p>UI Designer</p>
-								</div>
-								<div className="">
-									<img
-										src="/assets/team/aditya11.jpg"
-										alt=""
-										className="rounded-full h-40 w-40"
-									/>
-									<p>Aditya Choudhury</p>
-									<p>2129011</p>
-									<p>Full Stack Dev</p>
-
-								</div>
-								<div className="">
-									<img
-										src="/assets/team/adwaith.jpg"
-										alt=""
-										className="rounded-full h-40 w-40"
-									/>
-									<p>Adwaith PJ</p>
-									<p>2129013</p>
-									<p>ML Dev</p>
-
-								</div>
-								<div className="">
-									<img
-										src="/assets/team/diptangshu.jpg"
-										alt=""
-										className="rounded-full h-40 w-40"
-									/>
-									<p>Diptangshu<br/>Bhattacharjee</p>
-									<p>2129023</p>
-									<p>Investor</p>
-
-								</div>
-								<div className="">
-									<img
-										src="/assets/team/megha.jpg"
-										alt=""
-										className="rounded-full h-40 w-40"
-									/>
-									<p>MeghaVarshini<br/>Nukam</p>
-									<p>2129154</p>
-									<p>Backend Dev</p>
-
-								</div>
+							<h1 className="text-center text-4xl font-semibold mb-6">
+								Our Team Members
+							</h1>
+							<div className="flex flex-wrap justify-center gap-10">
+								{teamMembers.map((member) => (
+									<div className="flex flex-col items-center" key={member.id}>
+										<img
+											src={member.imageSrc}
+											alt={member.name}
+											className="rounded-full h-40 w-40 mb-4"
+										/>
+										<p className="font-medium">{member.name}</p>
+										<p className="text-sm">{member.id}</p>
+										<p className="text-sm">{member.role}</p>
+									</div>
+								))}
 							</div>
 						</div>
 					</section>
