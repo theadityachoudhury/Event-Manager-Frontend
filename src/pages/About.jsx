@@ -43,24 +43,24 @@ const About = ({ title }) => {
 								cozy family gathering, Evently has you covered with a range of
 								features:
 							</p>
-							<ul className="md:text-xl text-md space-y-2">
-								<li>
+							<ul className="md:text-xl text-md space-y-2 flex gap-4 stroke-gray-500">
+								<li className="bg-indigo-400 hover:bg-red-400 transition ease-in-out duration-300 p-3 rounded-md">
 									<strong>Automatic Event Image Distribution:</strong> Every
 									attendee receives their event photos!
 								</li>
-								<li>
+								<li className="bg-indigo-400 hover:bg-red-400 transition ease-in-out duration-300 p-3 rounded-md">
 									<strong>Attendance Marker:</strong> Keep track of participants
 									effortlessly.
 								</li>
-								<li>
+								<li className="bg-indigo-400 hover:bg-red-400 transition ease-in-out duration-300 p-3 rounded-md">
 									<strong>Free or Paid Events:</strong> Customize your event
 									pricing.
 								</li>
-								<li>
+								<li className="bg-indigo-400 hover:bg-red-400 transition ease-in-out duration-300 p-3 rounded-md">
 									<strong>Open or Close Events:</strong> Choose the level of
 									privacy for your gatherings.
 								</li>
-								<li>
+								<li className="bg-indigo-400 p-3 hover:bg-red-400 transition ease-in-out duration-300 rounded-md">
 									<strong>Perfect for any Occasion:</strong> From weddings to
 									corporate events, we cater to all.
 								</li>
@@ -75,16 +75,69 @@ const About = ({ title }) => {
 								with Evently, your events are in good hands!
 							</p>
 						</div>
-						<button className="mt-10 text-white bg-indigo-600 hover:bg-red-400 font-medium rounded-full text-md md:text-xl px-5 py-2.5 me-2 mb-2 dark:bg-indigo-600 dark:hover:bg-red-400 focus:outline-none transition ease-in-out duration-300">
-							Join Now
-						</button>
+						<div className="mt-9">
+							<h1 className="text-center text-4xl font-semibold">Our Team Members</h1>
+							<div className="sm:flex flex-row m-5 gap-28 items-center justify-center content-center text-center">
+								<div className="">
+									<img
+										src="/assets/team/aditya10.JPG"
+										alt=""
+										className="rounded-full h-40 w-40"
+									/>
+									<p>Aditya Singh</p>
+									<p>2129010</p>
+									<p>UI Designer</p>
+								</div>
+								<div className="">
+									<img
+										src="/assets/team/aditya11.jpg"
+										alt=""
+										className="rounded-full h-40 w-40"
+									/>
+									<p>Aditya Choudhury</p>
+									<p>2129011</p>
+									<p>Full Stack Dev</p>
+
+								</div>
+								<div className="">
+									<img
+										src="/assets/team/adwaith.jpg"
+										alt=""
+										className="rounded-full h-40 w-40"
+									/>
+									<p>Adwaith PJ</p>
+									<p>2129013</p>
+									<p>ML Dev</p>
+
+								</div>
+								<div className="">
+									<img
+										src="/assets/team/diptangshu.jpg"
+										alt=""
+										className="rounded-full h-40 w-40"
+									/>
+									<p>Diptangshu<br/>Bhattacharjee</p>
+									<p>2129023</p>
+									<p>Investor</p>
+
+								</div>
+								<div className="">
+									<img
+										src="/assets/team/megha.jpg"
+										alt=""
+										className="rounded-full h-40 w-40"
+									/>
+									<p>MeghaVarshini<br/>Nukam</p>
+									<p>2129154</p>
+									<p>Backend Dev</p>
+
+								</div>
+							</div>
+						</div>
 					</section>
 					<Footer />
 				</main>
-				
 			</div>
-
-			
 		</>
 	);
 };
