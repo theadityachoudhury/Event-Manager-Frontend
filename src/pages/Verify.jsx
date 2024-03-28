@@ -8,6 +8,7 @@ import Loader from "./components/Loader";
 import OTPInput from "./components/OTPInput";
 import axios from "axios";
 import delay from "./components/delay";
+import Footer from "../Footer";
 
 const Verify = ({ title }) => {
 	const [params] = useSearchParams();
@@ -336,6 +337,7 @@ const Verify = ({ title }) => {
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</>
 		);
 };

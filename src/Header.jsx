@@ -6,6 +6,7 @@ import Loader from "./pages/components/Loader.jsx";
 import { useUserContext } from "./UserContext.jsx";
 import NavItems from "./pages/components/NavItems.jsx";
 import { useState } from "react";
+import Footer from "./Footer.jsx";
 
 export default function Header({ isPublic }) {
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -174,7 +175,7 @@ export default function Header({ isPublic }) {
 				</div>
 				<div className="wrapper flex gap-3 items-center justify-between">
 					<Link
-						href="/"
+						to="/"
 						className={
 							authenticated && user
 								? "md:hidden lg:block sm:block"

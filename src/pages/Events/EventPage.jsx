@@ -6,6 +6,7 @@ import axios from "axios";
 import { useUserContext } from "../../UserContext";
 import { MoveLeft } from "lucide-react";
 import ManageBar from "./admin/ManageBar";
+import Footer from "../../Footer";
 
 const EventPage = () => {
 	const { id } = useParams();
@@ -287,7 +288,7 @@ const EventPage = () => {
 
 	if (!loading && !iserror && eventData)
 		return (
-			<div className={`wrapper`}>
+			<div className={`wrapper space-y-5`}>
 				<div className="">
 					<Link to="/explore">
 						<p className="flex gap-2">
@@ -444,6 +445,8 @@ const EventPage = () => {
 						</div>
 					</div>
 				)}
+
+				<Footer />
 			</div>
 		);
 };

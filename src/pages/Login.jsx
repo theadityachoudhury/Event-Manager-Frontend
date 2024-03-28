@@ -7,6 +7,7 @@ import delay from "./components/delay";
 import { useUserContext } from "../UserContext";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import Loader from "./components/Loader";
+import Footer from "../Footer";
 
 const Login = ({ title }) => {
 	useEffect(() => {
@@ -297,7 +298,11 @@ const Login = ({ title }) => {
 										type="submit"
 										className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
 										{request ? (
-											<Loader title="Logging In" spinner={true} text="Logging You In" />
+											<Loader
+												title="Logging In"
+												spinner={true}
+												text="Logging You In"
+											/>
 										) : (
 											"Sign in"
 										)}
@@ -324,6 +329,7 @@ const Login = ({ title }) => {
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</>
 		);
 	}

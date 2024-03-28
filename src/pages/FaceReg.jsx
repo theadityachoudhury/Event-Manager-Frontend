@@ -6,6 +6,7 @@ import { MoveLeft } from "lucide-react";
 import * as faceapi from "face-api.js";
 import axios from "axios";
 import delay from "./components/delay";
+import Footer from "../Footer";
 
 const FaceReg = ({ title }) => {
 	const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -505,6 +506,7 @@ const FaceReg = ({ title }) => {
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</>
 		);
 	}

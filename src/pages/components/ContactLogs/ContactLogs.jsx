@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../Loader";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Footer from "../../../Footer";
 
 const ContactLogs = () => {
 	const [contactData, setContactData] = useState([]);
@@ -110,6 +111,7 @@ const ContactLogs = () => {
 					</section>
 				</main>
 			</div>
+			<Footer/>
 		</>
 	);
 };

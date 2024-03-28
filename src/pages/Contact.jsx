@@ -5,6 +5,7 @@ import { ContactSchema } from "../schema";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import ContactLogs from "./components/ContactLogs/ContactLogs";
+import Footer from "../Footer";
 
 const Contact = ({ title }) => {
 	useEffect(() => {
@@ -223,6 +224,7 @@ const Contact = ({ title }) => {
 						</section>
 					</main>
 				</div>
+				<Footer />
 			</>
 		);
 	}

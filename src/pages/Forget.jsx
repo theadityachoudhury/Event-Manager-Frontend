@@ -4,6 +4,7 @@ import { ForgetSchema } from "../schema";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Footer from "../Footer";
 
 const Forget = ({ title }) => {
 	useEffect(() => {
@@ -235,6 +236,7 @@ const Forget = ({ title }) => {
 					</div>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

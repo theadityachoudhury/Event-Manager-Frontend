@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EventsCard from "./EventsCard";
 import { useSearchParams } from "react-router-dom";
+import Footer from "../../Footer";
 
 const Events = ({ title }) => {
 	useEffect(() => {
@@ -58,6 +59,7 @@ const Events = ({ title }) => {
 					perPage={query.perPage}
 				/>
 			</div>
+			<div><Footer /></div>
 		</div>
 	);
 };

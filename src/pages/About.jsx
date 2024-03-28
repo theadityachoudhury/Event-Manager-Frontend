@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Footer from "../Footer";
 
 const About = ({ title }) => {
 	useEffect(() => {
@@ -20,7 +21,6 @@ const About = ({ title }) => {
 				}}>
 				<main style={{ flex: 1 }}>
 					<section
-						
 						style={{
 							padding: "2rem",
 							display: "flex",
@@ -29,28 +29,21 @@ const About = ({ title }) => {
 							justifyContent: "center",
 						}}>
 						<div
-							
 							style={{
 								maxWidth: "900px",
 								textAlign: "center",
 							}}>
-							<h1
-								className="text-3xl md:text-5xl font-semibold md:font-bold md:my-10 md:text-nowrap indent-"
-								>
-								 Spark Your Event's Story with Evently! ✨
+							<h1 className="text-3xl md:text-5xl font-semibold md:font-bold md:my-10 md:text-nowrap indent-">
+								Spark Your Event's Story with Evently! ✨
 							</h1>
-							<p
-								className="md:text-2xl text-lg font-medium my-8"
-								>
+							<p className="md:text-2xl text-lg font-medium my-8">
 								Evently is not just another event management platform; it's a
 								comprehensive SaaS product designed to make your events truly
 								unforgettable. Whether it's a grand wedding celebration or a
 								cozy family gathering, Evently has you covered with a range of
 								features:
 							</p>
-							<ul
-								className="md:text-xl text-md space-y-2"
-								>
+							<ul className="md:text-xl text-md space-y-2">
 								<li>
 									<strong>Automatic Event Image Distribution:</strong> Every
 									attendee receives their event photos!
@@ -86,8 +79,12 @@ const About = ({ title }) => {
 							Join Now
 						</button>
 					</section>
+					<Footer />
 				</main>
+				
 			</div>
+
+			
 		</>
 	);
 };

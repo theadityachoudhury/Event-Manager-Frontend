@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Footer from "../Footer";
 
 const Success = ({ title,data }) => {
 	useEffect(() => {
@@ -40,6 +41,7 @@ const Success = ({ title,data }) => {
 					</p>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

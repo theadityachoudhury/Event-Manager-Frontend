@@ -5,6 +5,7 @@ import axios from "axios";
 import { MoveLeft } from "lucide-react";
 import { ResetSchema } from "../schema";
 import toast from "react-hot-toast";
+import Footer from "../Footer";
 
 const ResetPassword = () => {
 	let { otp } = useParams();
@@ -152,6 +153,7 @@ const ResetPassword = () => {
 							</p>
 						</div>
 					</div>
+					<Footer />
 				</>
 			);
 		} else {
@@ -330,6 +332,7 @@ const ResetPassword = () => {
 							</div>
 						</div>
 					</div>
+					<Footer />
 				</>
 			);
 		}
@@ -383,6 +386,7 @@ const ResetPassword = () => {
 					</p>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import delay from "./components/delay";
 import { Navigate } from "react-router-dom";
 import { useUserContext } from "../UserContext";
+import Footer from "../Footer";
 
 const Register = ({ title }) => {
 	useEffect(() => {
@@ -365,6 +366,7 @@ const Register = ({ title }) => {
 					</div>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };
