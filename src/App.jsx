@@ -76,10 +76,10 @@ function App() {
 						element={<ResetPassword title="Reset Password" />}
 					/>
 					<Route path="/about" element={<About title="About" />} />
-					<Route path="/explore" element={<Events title="Events" />} />
+					<Route path="/explore" element={<Events title="Explore Events" />} />
 					<Route
 						path="/event/:id?"
-						element={<EventPage title="Register Event" />}
+						element={<EventPage />}
 					/>
 
 					<Route path="/contact" element={<Contact title="Contact" />} />

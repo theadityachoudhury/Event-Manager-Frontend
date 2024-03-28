@@ -8,7 +8,7 @@ import InternalServerError from "../../components/InternalServerError";
 import ReactDatePicker from "react-datepicker";
 import Utils from "../../../Utils";
 
-const EditEvent = () => {
+const EditEvent = ({title}) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [formData, setFormData] = useState({});

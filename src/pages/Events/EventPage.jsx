@@ -22,7 +22,7 @@ const EventPage = () => {
 	}
 	useEffect(() => {
 		// Update the document title when the component mounts
-		if (eventData && eventData.eventName != "undefined") {
+		if (eventData.eventName) {
 			document.title = eventData.eventName + " | Evently";
 		} else {
 			document.title = "Evently";

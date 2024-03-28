@@ -5,13 +5,14 @@ import { useSearchParams } from "react-router-dom";
 const Events = ({ title }) => {
 	useEffect(() => {
 		// Update the document title when the component mounts
+
 		document.title = title + " | Evently";
 
 		// Optionally, you can return a cleanup function to revert the title when the component unmounts
 		return () => {
 			document.title = "Evently"; // Set your default title here
 		};
-	}, [title]);
+	}, []);
 	const [params, setParams] = useSearchParams();
 	const [searchData, setSearchData] = useState(params.get("query") || "");
 	const [query, setQuery] = useState({

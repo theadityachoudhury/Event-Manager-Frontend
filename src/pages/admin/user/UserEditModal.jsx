@@ -70,7 +70,7 @@ const UserEditModal = ({ id }) => {
 							</div>
 						)}
 						{showModal && data && (
-							<form className="space-y-4 text-left max-w-sm md:max-w-lg">
+							<form className="space-y-4 text-left max-w-md md:min-w-[400px]">
 								<div className="">
 									<label htmlFor="email" className="block mb-1">
 										Email

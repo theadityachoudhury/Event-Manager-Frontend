@@ -88,7 +88,19 @@ const create = ({ title }) => {
 	});
 
 	const handleAddNewCategory = () => {};
+	const handleImageSelector = async (e) => {
+		const selectedFile = e.target.files[0]; // Use e.target.files to get the selected file
+		const reader = new FileReader();
 
+		reader.onload = () => {
+			setEventImage(reader.result); // Set the image data URL to the state
+		};
+
+		if (selectedFile) {
+			reader.readAsDataURL(selectedFile); // Read the file as data URL
+			setFormData({ ...formData, eventImageUploaded: true }); // Update formData to indicate that an image is uploaded
+		}
+	};
 	if (loading) {
 		<Loader title="Loading" />;
 	}
@@ -458,7 +470,7 @@ const create = ({ title }) => {
 								</div>
 
 								{/* Event Image */}
-								<div className="space-y-2  p-5">
+								{/* <div className="space-y-2  p-5">
 									<div>
 										<label
 											htmlFor="eventImage"
@@ -475,7 +487,109 @@ const create = ({ title }) => {
 											accept=".jpg"
 										/>
 									</div>
+								</div> */}
+
+<div className="space-y-2  p-5">
+						<div>
+							<label
+								htmlFor="dropzone-file"
+								className="block text-2xl font-medium leading-6 text-gray-900">
+								Event Image
+							</label>
+						</div>
+						{/* <div class="border border-dashed border-gray-500 relative">
+							<input
+								type="file"
+								multiple
+								className="cursor-pointer relative block opacity-0 w-full h-full p-20 z-50"
+							/>
+							<div className="text-center p-10 absolute top-0 right-0 left-0 m-auto">
+								<h4>
+									Drop files anywhere to upload
+									<br />
+									or
+								</h4>
+								<p class="">Select Files</p>
+							</div>
+						</div> */}
+
+						<div class="flex items-center justify-center w-full">
+							{formData.eventImageUploaded ? (
+								// <div className="flex items-center justify-center w-full">
+								// 	<img
+								// 		src={eventImage}
+								// 		alt="Selected Image"
+								// 		className="max-w-w-auto"
+								// 	/>
+								// </div>
+
+								<div className="flex items-center justify-center w-full">
+									<div className="relative">
+										<img
+											src={eventImage}
+											alt="Selected Image"
+											className="max-w-xs border border-black rounded-md"
+										/>
+										<button
+											onClick={() => {
+												setEventImage(null); // Clear the selected image
+												setFormData({ ...formData, eventImageUploaded: false }); // Update formData to indicate that no image is uploaded
+											}}
+											className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none">
+											{/* <svg
+												xmlns="http://www.w3.org/2000/svg"
+												className="h-6 w-6"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor">
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M6 18L18 6M6 6l12 12"
+												/>
+											</svg> */}
+											Delete
+										</button>
+									</div>
 								</div>
+							) : (
+								<label
+									for="dropzone-file"
+									class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100">
+									<div class="flex flex-col items-center justify-center pt-5 pb-6">
+										<svg
+											class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+											aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 20 16">
+											<path
+												stroke="currentColor"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+											/>
+										</svg>
+										<p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+											<span class="font-semibold">Click to upload</span>
+										</p>
+										<p class="text-xs text-gray-500 dark:text-gray-400">
+											SVG, PNG, JPG or GIF
+										</p>
+									</div>
+									<input
+										onChange={handleImageSelector}
+										id="dropzone-file"
+										type="file"
+										class="hidden"
+										accept=".png,.jpeg,.jpg,.gif"
+									/>
+								</label>
+							)}
+						</div>
+					</div>
 							</div>
 
 							{/* Event URL */}
@@ -652,16 +766,39 @@ const create = ({ title }) => {
 										<div className="block w-full rounded-lg border-0 px-5 py-3 text-md text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm md:text-md sm:leading-6 disabled:bg-slate-300">
 											<ReactDatePicker
 												selected={dates.endDate}
+												// onChange={(date) => {
+												// 	setFormError({
+												// 		...formError,
+												// 		eventEndDate: "",
+												// 	});
+												// 	setDates({ ...dates, endDate: date });
+												// 	setFormData({
+												// 		...formData,
+												// 		eventEndDate: Utils.formatDateToISO(date),
+												// 	});
+												// }}
+
 												onChange={(date) => {
 													setFormError({
 														...formError,
 														eventEndDate: "",
 													});
-													setDates({ ...dates, endDate: date });
-													setFormData({
-														...formData,
-														eventEndDate: Utils.formatDateToISO(date),
-													});
+													if (dates.startDate > date) {
+														setFormError({
+															...formError,
+															eventEndDate: "End date cannot be before start date",
+														});
+													} else {
+														setFormError({
+															...formError,
+															eventEndDate: "",
+														});
+														setDates({ ...dates, endDate: date });
+														setFormData({
+															...formData,
+															eventEndDate: Utils.formatDateToISO(date),
+														});
+													}
 												}}
 												showTimeSelect
 												timeInputLabel="Time:"
