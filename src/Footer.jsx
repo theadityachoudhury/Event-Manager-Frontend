@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+	const year = new Date().getFullYear();
 	return (
 			<footer className="border-t">
 				<div className="flex-center wrapper flex-between flex flex-col gap-4 p-5 text-center sm:flex-row">
@@ -13,7 +14,7 @@ const Footer = () => {
 						/>
 					</Link>
 
-					<p>2023 Evently. All Rights reserved.</p>
+					<p>© {year} Evently. All Rights reserved.</p>
 				</div>
 			</footer>
 	);
