@@ -14,7 +14,7 @@ const Dashboard = ({ title }) => {
 	const [loading, setLoading] = useState(true);
 	const { user } = useUserContext();
 
-	const fetchEvents = async () => { 
+	const fetchEvents = async () => {
 		let config = {
 			method: "get",
 			maxBodyLength: Infinity,
@@ -37,7 +37,9 @@ const Dashboard = ({ title }) => {
 		}
 	};
 	useEffect(() => {
-		fetchEvents().then(() => toast.success("Data Fetch Successful")).catch((error) => toast.error(error.message));
+		fetchEvents()
+			.then(() => toast.success("Data Fetch Successful"))
+			.catch((error) => toast.error(error.message));
 	}, []);
 
 	useEffect(() => {
@@ -80,8 +82,19 @@ const Dashboard = ({ title }) => {
 								<tbody>
 									{todaysEvents.map((event) => (
 										<tr key={event._id} className="text-center">
-											<td className="border p-2">{event.eventName}</td>
-											<td className="border p-2">{event.eventCategory.categoryName}</td>
+											<td className="border p-2">{event.eventName}
+												<span
+													className={
+														(event.eventType == "open"
+															? "bg-indigo-100 text-indigo-950"
+															: "bg-red-100 text-red-950") +
+														"rounded-md p-1 ml-2 text-xs"
+													}>
+													{event.eventType == "open" ? "PUBLIC" : "PRIVATE"}
+												</span></td>
+											<td className="border p-2">
+												{event.eventCategory.categoryName}
+											</td>
 											<td className="border p-2">{event.eventLocation}</td>
 											<td className="border p-2">
 												{event.eventAttendanceRequired
@@ -127,8 +140,19 @@ const Dashboard = ({ title }) => {
 								<tbody>
 									{tomorrowsEvents.map((event) => (
 										<tr key={event._id} className="text-center">
-											<td className="border p-2">{event.eventName}</td>
-											<td className="border p-2">{event.eventCategory.categoryName}</td>
+											<td className="border p-2">{event.eventName}
+												<span
+													className={
+														(event.eventType == "open"
+															? "bg-indigo-100 text-indigo-950"
+															: "bg-red-100 text-red-950") +
+														"rounded-md p-1 ml-2 text-xs"
+													}>
+													{event.eventType == "open" ? "PUBLIC" : "PRIVATE"}
+												</span></td>
+											<td className="border p-2">
+												{event.eventCategory.categoryName}
+											</td>
 											<td className="border p-2">{event.eventLocation}</td>
 											<td className="border p-2">
 												{event.eventAttendanceRequired
@@ -174,8 +198,19 @@ const Dashboard = ({ title }) => {
 								<tbody>
 									{upcomingEvents.map((event) => (
 										<tr key={event._id} className="text-center">
-											<td className="border p-2">{event.eventName}</td>
-											<td className="border p-2">{event.eventCategory.categoryName}</td>
+											<td className="border p-2">{event.eventName}
+												<span
+													className={
+														(event.eventType == "open"
+															? "bg-indigo-100 text-indigo-950"
+															: "bg-red-100 text-red-950") +
+														"rounded-md p-1 ml-2 text-xs"
+													}>
+													{event.eventType == "open" ? "PUBLIC" : "PRIVATE"}
+												</span></td>
+											<td className="border p-2">
+												{event.eventCategory.categoryName}
+											</td>
 											<td className="border p-2">{event.eventLocation}</td>
 											<td className="border p-2">
 												{event.eventAttendanceRequired
@@ -221,8 +256,21 @@ const Dashboard = ({ title }) => {
 								<tbody>
 									{pastEvents.map((event) => (
 										<tr key={event._id} className="text-center">
-											<td className="border p-2">{event.eventName}</td>
-											<td className="border p-2">{event.eventCategory.categoryName}</td>
+											<td className="border p-2 mr-2">
+												{event.eventName}
+												<span
+													className={
+														(event.eventType == "open"
+															? "bg-indigo-100 text-indigo-950"
+															: "bg-red-100 text-red-950") +
+														"rounded-md p-1 ml-2 text-xs"
+													}>
+													{event.eventType == "open" ? "PUBLIC" : "PRIVATE"}
+												</span>
+											</td>
+											<td className="border p-2">
+												{event.eventCategory.categoryName}
+											</td>
 											<td className="border p-2">{event.eventLocation}</td>
 											<td className="border p-2">
 												{event.eventAttendanceRequired
