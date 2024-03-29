@@ -42,7 +42,7 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route path="/dashboard" element={<Dashboard title="Dashboard" />} />
 					<Route path="/settings" element={<Settings title="Settings" />} />
-					<Route path="/profile" element={<Profile title="Settings" />} />
+					<Route path="/profile/:subpage?" element={<Profile title="Settings" />} />
 					<Route
 						path="/events/create"
 						element={<Create title="Create Events" />}

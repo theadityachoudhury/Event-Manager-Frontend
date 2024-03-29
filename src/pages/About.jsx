@@ -21,7 +21,7 @@ const About = ({ title }) => {
 		imageSrc: "/assets/team/diptangshu.jpg",
 		name: "Diptangshu Bhattacharjee",
 		id: "2129023",
-		role: "Investor",
+		role: "Cloud Developer",
 	}, {
 		imageSrc: "/assets/team/megha.jpg",
 		name: "MeghaVarshini Nukam",
