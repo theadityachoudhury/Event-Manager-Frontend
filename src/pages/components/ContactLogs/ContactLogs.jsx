@@ -66,9 +66,9 @@ const ContactLogs = () => {
 												<th scope="col" className="px-6 py-3 rounded-e-lg">
 													Message
 												</th>
-												<th scope="col" className="px-6 py-3 rounded-e-lg">
+												{/* <th scope="col" className="px-6 py-3 rounded-e-lg">
 													Actions
-												</th>
+												</th> */}
 											</tr>
 										</thead>
 
@@ -92,14 +92,14 @@ const ContactLogs = () => {
 														</td>
 														<td className="px-6 py-4">{contact.name}</td>
 														<td className="px-6 py-4">{contact.message}</td>
-														<td className="flex flex-row gap-2 px-6 py-4">
+														{/* <td className="flex flex-row gap-2 px-6 py-4">
 															<button className="bg-indigo-600 rounded-md py-2 px-3 text-white hover:bg-indigo-700">
 																Reply
 															</button>
 															<button className="bg-red-600 rounded-md py-2 px-3 text-white hover:bg-red-500">
 																Delete
 															</button>
-														</td>
+														</td> */}
 													</tr>
 												))
 											)}

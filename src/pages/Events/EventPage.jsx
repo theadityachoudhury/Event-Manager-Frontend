@@ -9,6 +9,7 @@ import ManageBar from "./admin/ManageBar";
 import Footer from "../../Footer";
 
 const EventPage = () => {
+	const today = new Date().toISOString();
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [eventData, setEventData] = useState({});
@@ -18,6 +19,9 @@ const EventPage = () => {
 	const [edit, setEdit] = useState(false);
 	const [eventDelete, setEventDelete] = useState(false);
 	const [attendance, setAttendance] = useState(false);
+	const [closed, setClosed] = useState(false);
+
+	console.log(closed);
 	if (!id) {
 		return <Navigate to="/explore" />;
 	}
@@ -50,6 +54,9 @@ const EventPage = () => {
 			.request(config)
 			.then(({ data }) => {
 				setEventData(data);
+				if (new Date(data.eventStartDate) < new Date(today)) {
+					setClosed(true);
+				}
 				setLoading(false);
 			})
 			.catch((err) => {
@@ -322,13 +329,9 @@ const EventPage = () => {
 								{eventData.eventCategory?.categoryName}
 							</p>
 							<p className="p-2">
-								{`${new Date(
-									eventData.eventStartDate || 0
-								).getDate()}/${new Date(
-									eventData.eventStartDate || 0
-								).getMonth()+1}/${new Date(
-									eventData.eventStartDate || 0
-								).getFullYear()}`}
+								{`${new Date(eventData.eventStartDate || 0).getDate()}/${
+									new Date(eventData.eventStartDate || 0).getMonth() + 1
+								}/${new Date(eventData.eventStartDate || 0).getFullYear()}`}
 							</p>
 						</div>
 						<div className="block sm:hidden">
@@ -370,7 +373,7 @@ const EventPage = () => {
 								{eventData.ownerId == user.data._id ||
 								user.data.role == "admin" ? (
 									<></>
-								) : (
+								) : !closed || isApplied ? (
 									<div>
 										{eventData.free === true || eventData.price == 0 ? (
 											<div className="flex justify-center items-center sm:justify-start sm:items-start ">
@@ -394,33 +397,37 @@ const EventPage = () => {
 											</div>
 										)}
 									</div>
+								) : (
+									<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+										<button
+											disabled={true}
+											className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400 disabled:bg-slate-400 disabled:text-slate-950 disabled:hover:bg-slate-500">
+											Registrations Closed
+										</button>
+									</div>
 								)}
 							</div>
 						)}
 						<div className="mt-2 font-medium">
 							<p className="mt-10">
 								Event Posted On:-{" "}
-								{`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
-									eventData.createdAt || 0
-								).getMonth()+1}/${new Date(
-									eventData.createdAt || 0
-									).getFullYear()}`}
-								
-								{console.log(eventData.createdAt)}{
-								console.log(`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
-									eventData.createdAt || 0
-								).getMonth()}/${new Date(
-									eventData.createdAt || 0
-								).getFullYear()}`)
-								}
+								{`${new Date(eventData.createdAt || 0).getDate()}/${
+									new Date(eventData.createdAt || 0).getMonth() + 1
+								}/${new Date(eventData.createdAt || 0).getFullYear()}`}
+								{console.log(eventData.createdAt)}
+								{console.log(
+									`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
+										eventData.createdAt || 0
+									).getMonth()}/${new Date(
+										eventData.createdAt || 0
+									).getFullYear()}`
+								)}
 							</p>
 							<p className="">
 								Event Last Updated On:-{" "}
-								{`${new Date(eventData.updatedAt || 0).getDate()}/${new Date(
-									eventData.updatedAt || 0
-								).getMonth()+1}/${new Date(
-									eventData.updatedAt || 0
-								).getFullYear()}`}
+								{`${new Date(eventData.updatedAt || 0).getDate()}/${
+									new Date(eventData.updatedAt || 0).getMonth() + 1
+								}/${new Date(eventData.updatedAt || 0).getFullYear()}`}
 							</p>
 						</div>
 					</div>
