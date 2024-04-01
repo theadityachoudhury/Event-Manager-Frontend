@@ -326,7 +326,7 @@ const EventPage = () => {
 									eventData.eventStartDate || 0
 								).getDate()}/${new Date(
 									eventData.eventStartDate || 0
-								).getMonth()}/${new Date(
+								).getMonth()+1}/${new Date(
 									eventData.eventStartDate || 0
 								).getFullYear()}`}
 							</p>
@@ -402,15 +402,23 @@ const EventPage = () => {
 								Event Posted On:-{" "}
 								{`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
 									eventData.createdAt || 0
+								).getMonth()+1}/${new Date(
+									eventData.createdAt || 0
+									).getFullYear()}`}
+								
+								{console.log(eventData.createdAt)}{
+								console.log(`${new Date(eventData.createdAt || 0).getDate()}/${new Date(
+									eventData.createdAt || 0
 								).getMonth()}/${new Date(
 									eventData.createdAt || 0
-								).getFullYear()}`}
+								).getFullYear()}`)
+								}
 							</p>
 							<p className="">
 								Event Last Updated On:-{" "}
 								{`${new Date(eventData.updatedAt || 0).getDate()}/${new Date(
 									eventData.updatedAt || 0
-								).getMonth()}/${new Date(
+								).getMonth()+1}/${new Date(
 									eventData.updatedAt || 0
 								).getFullYear()}`}
 							</p>
