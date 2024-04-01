@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useUserContext } from "../../../UserContext";
 import axios from "axios";
@@ -7,14 +7,17 @@ import { MoveLeft } from "lucide-react";
 import InternalServerError from "../../components/InternalServerError";
 import ReactDatePicker from "react-datepicker";
 import Utils from "../../../Utils";
+import { eventsSchema } from "../../../schema";
+import toast from "react-hot-toast";
 
-const EditEvent = ({title}) => {
+const EditEvent = ({ title }) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [formData, setFormData] = useState({});
 	const [category, setCategory] = useState([]);
 	const [iserror, setError] = useState(false);
 	const { user, authenticated, ready } = useUserContext();
+	const [request, setRequest] = useState(false);
 	const [dates, setDates] = useState({
 		startDate: new Date(),
 		endDate: new Date(),
@@ -52,7 +55,19 @@ const EditEvent = ({title}) => {
 		axios
 			.request(config)
 			.then(({ data }) => {
-				setFormData({ ...data, eventImageUploaded: false });
+				const {
+					_id,
+					__v,
+					createdAt,
+					updatedAt,
+					participantsCount,
+					...eventDetails
+				} = data;
+				setFormData({
+					...eventDetails,
+					eventCategory: data.eventCategory._id,
+					eventImageUploaded: false,
+				});
 			})
 			.catch((err) => {
 				setError(true);
@@ -93,6 +108,90 @@ const EditEvent = ({title}) => {
 		}
 	};
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		console.log(formData);
+		setRequest(true);
+		startTransition(async () => {
+			try {
+				eventsSchema.validateSync(formData, { abortEarly: false });
+				let config = {
+					method: "patch",
+					maxBodyLength: Infinity,
+					url: `/api/event/${id}`,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					data: formData,
+				};
+				const { data } = await axios.request(config);
+				const {
+					_id,
+					__v,
+					createdAt,
+					updatedAt,
+					participantsCount,
+					...eventDetails
+				} = data;
+				setFormData({
+					...eventDetails,
+					eventImageUploaded: false,
+				});
+				setRequest(false);
+				toast.success("Event Updation Successful", {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#1ccb5b",
+					},
+					iconTheme: {
+						primary: "#1ccb5b",
+						secondary: "#FFFAEE",
+					},
+				});
+			} catch (error) {
+				console.log(error);
+				setRequest(false);
+				const fieldErrors = {};
+				if (error.inner) {
+					error.inner.forEach((err) => {
+						fieldErrors[err.path] = err.message;
+					});
+					setFormError({ ...formError, ...fieldErrors });
+				}
+
+				if (axios.isAxiosError(error)) {
+					if (error?.message === "Network Error") {
+						console.log("Unable to contact servers! Please try again later");
+						toast.error("Unable to contact servers! Please try again later", {
+							style: {
+								border: "1px solid",
+								padding: "16px",
+								color: "#fa776c",
+							},
+							iconTheme: {
+								primary: "#fa776c",
+								secondary: "#FFFAEE",
+							},
+						});
+					} else {
+						toast.error(error.response.data.message, {
+							style: {
+								border: "1px solid",
+								padding: "16px",
+								color: "#fa776c",
+							},
+							iconTheme: {
+								primary: "#fa776c",
+								secondary: "#FFFAEE",
+							},
+						});
+					}
+				}
+			}
+		});
+	};
+
 	if (loading) {
 		return <Loader />;
 	}
@@ -120,7 +219,7 @@ const EditEvent = ({title}) => {
 			</div>
 			<h1 className="text-5xl">Edit Event</h1>
 
-			<form className="p-5">
+			<form className="p-5" onSubmit={handleSubmit}>
 				{/* Event Name */}
 				<div className="space-y-2 sm:bg-inherit hover:sm:bg-inherit p-5 rounded-lg">
 					<div>
@@ -269,6 +368,7 @@ const EditEvent = ({title}) => {
 										...formError,
 										eventCategory: "",
 									});
+									console.log(e.target.value);
 									setFormData({
 										...formData,
 										eventCategory: e.target.value,

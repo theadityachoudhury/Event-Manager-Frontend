@@ -330,6 +330,7 @@ const create = ({ title }) => {
 													...formError,
 													eventCategory: "",
 												});
+												console.log(e.target.value);
 												setFormData({
 													...formData,
 													eventCategory: e.target.value,
