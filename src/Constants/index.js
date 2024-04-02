@@ -29,6 +29,10 @@ export const headerLinks = [
   {
     label: 'Manage Users',
     route:"/admin/manage/users"
+  },
+  {
+    label: 'Email Logs',
+    route:"/emailLogs"
   }
 ]
 
