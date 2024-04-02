@@ -19,8 +19,8 @@ const EmailLogsTable = ({ user }) => {
 
 	return (
 		<div className="overflow-x-auto">
-			<h2 className="text-2xl font-semibold mb-4">Email Logs</h2>
-			<table className="w-full border-collapse">
+			<h2 className="text-5xl font-thin mb-4 text-center">Email Logs</h2>
+			<table className="w-full border-collapse font-mono">
 				<thead>
 					<tr>
 						<th className="border-b-2 border-gray-200 p-2 bg-gray-100 text-left">
@@ -49,15 +49,15 @@ const EmailLogsTable = ({ user }) => {
 				<tbody>
 					{emailLogs.map((log, index) => (
 						<tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
-							<td className="border-b border-gray-200 p-2">
+							<td className="border-b border-r border-gray-200 p-2">
 								{log.to.join(", ")}
 							</td>
-							<td className="border-b border-gray-200 p-2">{log.subject}</td>
-							<td className="border-b border-gray-200 p-2">{log.body}</td>
-							<td className="border-b border-gray-200 p-2">{log.status}</td>
-							<td className="border-b border-gray-200 p-2">{log.type}</td>
-							<td className="border-b border-gray-200 p-2">{log.messageId}</td>
-							<td className="border-b border-gray-200 p-2">
+							<td className="border-b border-r border-gray-200 p-2">{log.subject}</td>
+                            <td className="border-b border-r border-gray-200 p-2" dangerouslySetInnerHTML={{ __html: log.body }}></td>
+							<td className="border-b border-r border-gray-200 p-2">{log.status}</td>
+							<td className="border-b border-r border-gray-200 p-2">{log.type}</td>
+							<td className="border-b border-r border-gray-200 p-2">{(log.messageId).split('@')[0]}</td>
+							<td className="border-b border-r border-gray-200 p-2">
 								{new Date(log.createdAt).toLocaleString()}
 							</td>
 						</tr>

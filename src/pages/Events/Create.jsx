@@ -87,6 +87,8 @@ const create = ({ title }) => {
 		endDate: new Date(),
 	});
 
+	const [eventImage, setEventImage] = useState(null);
+
 	const handleAddNewCategory = () => {};
 	const handleImageSelector = async (e) => {
 		const selectedFile = e.target.files[0]; // Use e.target.files to get the selected file

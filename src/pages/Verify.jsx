@@ -81,6 +81,44 @@ const Verify = ({ title }) => {
 		}
 	};
 
+	useEffect(() => {
+		const generateOTP = async () => {
+			let config = {
+				method: "post",
+				maxBodyLength: Infinity,
+				url: "/api/auth/generate",
+				headers: {},
+			};
+			try {
+				const response = await axios.request(config);
+				toast.success("Code Sent Successfully!!", {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#1ccb5b",
+					},
+					iconTheme: {
+						primary: "#1ccb5b",
+						secondary: "#FFFAEE",
+					},
+				});
+			} catch (error) {
+				toast.error("Unable to contact servers! Please try again later", {
+					style: {
+						border: "1px solid",
+						padding: "16px",
+						color: "#fa776c",
+					},
+					iconTheme: {
+						primary: "#fa776c",
+						secondary: "#FFFAEE",
+					},
+				});
+			}
+		};
+		generateOTP();
+	}, []);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setRequest(true);
