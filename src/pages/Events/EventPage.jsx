@@ -367,47 +367,59 @@ const EventPage = () => {
 								</Link>
 							</div>
 						)}
-
-						{authenticated && ready && user && eventData && (
-							<div>
-								{eventData.ownerId == user.data._id ||
-								user.data.role == "admin" ? (
-									<></>
-								) : !closed || isApplied ? (
-									<div>
-										{eventData.free === true || eventData.price == 0 ? (
-											<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-												<button
-													disabled={isApplied}
-													onClick={registerEvent}
-													className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-													{isApplied ? "Registered" : "Register Now"}
-												</button>
-											</div>
-										) : (
-											<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-												<button
-													onClick={payForEvent}
-													disabled={isApplied}
-													className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
-													{isApplied
-														? "Paid & Registered"
-														: `Pay ${eventData.price}/-`}
-												</button>
-											</div>
-										)}
-									</div>
-								) : (
-									<div className="flex justify-center items-center sm:justify-start sm:items-start ">
-										<button
-											disabled={true}
-											className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400 disabled:bg-slate-400 disabled:text-slate-950 disabled:hover:bg-slate-500">
-											Registrations Closed
-										</button>
-									</div>
-								)}
+						{authenticated &&
+							ready &&
+							(!user.data.verified ||
+							!user.data.face) && (
+							<div className="flex gap-2"><p className="p-1">Please verify your account to register in events!!</p>
+							<Link to={"/verify"} className="bg-red-100 hover:bg-red-300 text-red-950 text-xl rounded-md p-1">Verify Account</Link>
 							</div>
-						)}
+							)}
+
+						{authenticated &&
+							ready &&
+							user.data.verified &&
+							user.data.face &&
+							eventData && (
+								<div>
+									{eventData.ownerId == user.data._id ||
+									user.data.role == "admin" ? (
+										<></>
+									) : !closed || isApplied ? (
+										<div>
+											{eventData.free === true || eventData.price == 0 ? (
+												<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+													<button
+														disabled={isApplied}
+														onClick={registerEvent}
+														className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+														{isApplied ? "Registered" : "Register Now"}
+													</button>
+												</div>
+											) : (
+												<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+													<button
+														onClick={payForEvent}
+														disabled={isApplied}
+														className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400">
+														{isApplied
+															? "Paid & Registered"
+															: `Pay ${eventData.price}/-`}
+													</button>
+												</div>
+											)}
+										</div>
+									) : (
+										<div className="flex justify-center items-center sm:justify-start sm:items-start ">
+											<button
+												disabled={true}
+												className="bg-indigo-400 text-2xl rounded-md p-3 hover:bg-red-400 disabled:bg-slate-400 disabled:text-slate-950 disabled:hover:bg-slate-500">
+												Registrations Closed
+											</button>
+										</div>
+									)}
+								</div>
+							)}
 						<div className="mt-2 font-medium">
 							<p className="mt-10">
 								Event Posted On:-{" "}
